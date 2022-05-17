@@ -1,18 +1,5 @@
 defmodule Baz do
   @moduledoc """
-  Documentation for `Baz`.
+  A chain native hybrid bazaar engine
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Baz.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 end
