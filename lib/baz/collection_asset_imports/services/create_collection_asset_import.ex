@@ -28,8 +28,8 @@ defmodule Baz.CollectionAssetImports.Services.CreateCollectionAssetImport do
   end
 
   defp insert_job(collection_import) do
-    %{id: collection_import.id}
-    |> CollectionAssetImports.Jobs.RetrieveCollectionAsset.new()
+    %{collection_asset_import_id: collection_import.id}
+    |> CollectionAssetImports.Jobs.PullCollectionAssets.new()
     |> Oban.insert()
   end
 end

@@ -18,6 +18,16 @@ config :baz, Oban,
   repo: Baz.Repo,
   plugins: [
     Oban.Plugins.Pruner,
+    # {
+    #   Oban.Plugins.Cron,
+    #   crontab: [
+    #     {"* * * * *", MyApp.MinuteWorker},
+    #     {"0 * * * *", MyApp.HourlyWorker, args: %{custom: "arg"}},
+    #     {"0 0 * * *", MyApp.DailyWorker, max_attempts: 1},
+    #     {"0 12 * * MON", MyApp.MondayWorker, queue: :scheduled, tags: ["mondays"]},
+    #     {"@daily", MyApp.AnotherDailyWorker}
+    #   ]
+    # }
   ],
   queues: [default: 10, imports: 5]
 
@@ -40,6 +50,45 @@ config :baz, venues: %{
     credentials: %{},
   }
 }
+
+
+# config :baz, venue_subscriptions: %{
+#   "/consolidated_events/*/boredapeyachtclub" => {
+#     Baz.ConsolidatedEvents.MergeCollectionSubscriber,
+#     [
+#       "/events/*/open_sea:boredapeyachtclub",
+#       "/events/*/looks_rare:0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"
+#     ],
+#     %{}
+#   },
+#   "/consolidated_events/item_listed/boredapeyachtclub" => {
+#     Baz.ConsolidatedEvents.MergeCollectionSubscriber,
+#     [
+#       "/events/item_listed/open_sea:boredapeyachtclub",
+#       "/events/item_listed/looks_rare:0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"
+#     ],
+#     %{}
+#   },
+#   "/collection_packs/watch" => {
+#     Baz.CollectionPacks.Watch,
+#     [
+#       "/collections/created/open_sea:mutantapeyachtclub",
+#       "/collections/created/looks_rare:0x60E4d786628Fea6478F785A6d7e704777c86a7c6",
+#       "/collections/updated/open_sea:mutantapeyachtclub",
+#       "/collections/updated/looks_rare:0x60E4d786628Fea6478F785A6d7e704777c86a7c6",
+#       "/collections/deleted/*",
+#     ],
+#     %{}
+#   }
+# }
+
+# config :baz, collection_pack_provider: Baz.CollectionPacks.EctoProvider
+# config :baz, collection_packs: %{
+#   "boredapeyachtclub" => [
+#     "open_sea/boredapeyachtclub",
+#     "looks_rare/0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"
+#   ]
+# }
 
 # Logger
 config :logger,

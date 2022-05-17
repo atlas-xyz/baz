@@ -24,7 +24,7 @@ defmodule Baz.CollectionImports.Jobs.RetrieveCollection do
   defp get_and_upsert_collection(collection_import) do
     venue = Baz.Venues.get_venue!(collection_import.venue)
 
-    case Baz.VenueAdapter.get_collection_by_slug(venue, collection_import.slug) do
+    case Baz.VenueAdapter.fetch_collection_by_slug(venue, collection_import.slug) do
       %Ecto.Changeset{} = changeset ->
         # TODO: support multiple strategies
         # - :nothing

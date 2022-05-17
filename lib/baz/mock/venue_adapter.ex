@@ -5,11 +5,8 @@ defmodule Baz.Mock.VenueAdapter do
 
   @behaviour Baz.VenueAdapter
 
-  @type venue :: Baz.VenueAdapter.venue()
-  @type collection_slug :: Baz.VenueAdapter.collection_slug()
-
-  @spec get_collection_by_slug(venue, collection_slug) :: Baz.VenueAdapter.get_collection_by_slug_result()
-  def get_collection_by_slug(venue, slug) do
+  @impl true
+  def fetch_collection_by_slug(venue, slug) do
     case slug do
       "azuki" ->
         Baz.Collections.collection_changeset(%{
@@ -23,24 +20,36 @@ defmodule Baz.Mock.VenueAdapter do
     end
   end
 
-  @type token_ids :: Baz.VenueAdapter.token_ids()
-
-  @spec get_collection_assets_by_slug(venue, collection_slug, token_ids) :: Baz.VenueAdapter.get_collection_assets_by_slug_result()
-  def get_collection_assets_by_slug(venue, slug, token_ids) do
+  @impl true
+  def fetch_collection_asset_page_by_slug(venue, slug, token_ids, _page_cursor) do
     case slug do
       "azuki" -> 
-        assets =
-          token_ids
-          |> Enum.map(fn token_id ->
-            Baz.CollectionAssets.collection_asset_changeset(%{
-              venue: venue.name,
-              slug: slug,
-              token_id: token_id,
-              name: "Azuki ##{token_id}"
-            })
-          end)
+        assets = case token_ids do
+          nil ->
+            # TODO: DRY this up
+            [1, 2, 3, 4, 5]
+            |> Enum.map(fn token_id ->
+              Baz.CollectionAssets.collection_asset_changeset(%{
+                venue: venue.name,
+                slug: slug,
+                token_id: token_id,
+                name: "Azuki ##{token_id}"
+              })
+            end)
 
-        assets
+          _ ->
+            token_ids
+            |> Enum.map(fn token_id ->
+              Baz.CollectionAssets.collection_asset_changeset(%{
+                venue: venue.name,
+                slug: slug,
+                token_id: token_id,
+                name: "Azuki ##{token_id}"
+              })
+            end)
+        end
+
+        %Baz.Page{data: assets}
 
       _ ->
         {:error, :not_found}

@@ -1,0 +1,24 @@
+defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssetContracts do
+  use Ecto.Migration
+
+  def change do
+    create table(:collection_asset_contracts<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>) do
+      add :venue, :text, null: false
+      add :slug, :text, null: false
+      add :address, :string, null: false
+      add :contract_type, :string, null: false
+      add :token_standard, :string, null: false
+      add :payout_address, :string, null: false
+      add :buyer_fee, :decimal, null: false
+      add :seller_fee, :decimal, null: false
+      add :dev_buyer_fee, :decimal, null: false
+      add :dev_seller_fee, :decimal, null: false
+      add :venue_buyer_fee, :decimal, null: false
+      add :venue_seller_fee, :decimal, null: false
+
+      timestamps()
+    end
+
+    create index(:collection_asset_contracts, [:venue, :slug, :address], unique: true<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>)
+  end
+end
