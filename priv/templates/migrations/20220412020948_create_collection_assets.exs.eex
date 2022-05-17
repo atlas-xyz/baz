@@ -1,0 +1,25 @@
+defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssets do
+  use Ecto.Migration
+
+  def change do
+    create table(:collection_assets<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>) do
+      add :venue, :text, null: false
+      add :slug, :text, null: false
+      add :token_id, :integer, null: false
+      add :name, :text, null: false
+      add :description, :text
+      add :background_color, :text
+      add :image_uri, :text
+      add :image_preview_uri, :text
+      add :image_thumbnail_uri, :text
+      add :image_original_uri, :text
+      add :animation_uri, :text
+      add :animation_original_uri, :text
+      add :is_nsfw, :boolean
+
+      timestamps()
+    end
+
+    create index(:collection_assets, [:venue, :slug, :token_id], unique: true<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>)
+  end
+end
