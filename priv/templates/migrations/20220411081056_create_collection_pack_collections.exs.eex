@@ -1,0 +1,14 @@
+defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionPackCollections do
+  use Ecto.Migration
+
+  def change do
+    create table(:collection_pack_collections<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>) do
+      add :collection_pack_id, references(:collection_packs), null: false
+      add :collection_id, references(:collections), null: false
+
+      timestamps()
+    end
+
+    create index(:collection_pack_collections, [:collection_pack_id, :collection_id], unique: true<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>)
+  end
+end

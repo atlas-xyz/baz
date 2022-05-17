@@ -24,3 +24,6 @@ baz-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Ignore generated migrations
+priv/repo/migrations/*
