@@ -1,4 +1,5 @@
 # Baz
+[![Build Status](https://github.com/fremantle-industries/baz/workflows/test/badge.svg?branch=main)](https://github.com/fremantle-industries/baz/actions?query=workflow%3Atest)
 [![hex.pm version](https://img.shields.io/hexpm/v/baz.svg?style=flat)](https://hex.pm/packages/baz)
 
 A chain native hybrid bazaar engine
