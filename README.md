@@ -26,6 +26,7 @@ Stream NFT market data to create and manage orders with a near-uniform API acros
 
 ## Requirements
 
+- TimescaleDB 2.5+
 - Erlang 22+
 - Elixir 1.13+
 
@@ -80,6 +81,26 @@ Rerun ecto migrations
 
 ```bash
 $ mix ecto.migrate
+```
+
+## Development
+
+Ensure an instance of TimescaleDB is running
+
+```bash
+$ make start.db
+```
+
+Run an interactive Elixir shell to control `baz` via the [REPL commands](./docs/COMMANDS.md)
+
+```bash
+$ make start
+```
+
+## Test
+
+```
+$ make test
 ```
 
 ## Help Wanted :)
