@@ -10,16 +10,11 @@ A chain native hybrid bazaar engine
 
 Stream NFT market data to create and manage orders with a near-uniform API across multiple venues
 
-## Supported Venues
-
-| Venue      | Collections | Events | Orders |
-| ---------- | :---------: | :----: | :----: |
-| OpenSea    |     [ ]     |  [ ]   |  [ ]   |
-
 ## Venues In Progress
 
 | Venue      | Collections | Events | Orders |
 | ---------- | :---------: | :----: | :----: |
+| OpenSea    |     [ ]     |  [ ]   |  [ ]   |
 | LooksRare  |     [ ]     |  [ ]   |  [ ]   |
 | X2Y2       |     [ ]     |  [ ]   |  [ ]   |
 | Magic Eden |     [ ]     |  [ ]   |  [ ]   |

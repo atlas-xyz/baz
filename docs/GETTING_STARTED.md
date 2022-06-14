@@ -1,6 +1,6 @@
 # Baz/Getting Started
 
-[Getting Started](./GETTING_STARTED.md) [Commands](./COMMANDS.md)
+[Getting Started](./GETTING_STARTED.md) | [Commands](./COMMANDS.md)
 
 ## Install Elixir & Erlang
 
