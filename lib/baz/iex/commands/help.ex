@@ -14,6 +14,7 @@ defmodule Baz.IEx.Commands.Help do
     * collection_asset_imports [where: [...], order: [...]]
     * import_collection venue: ":name", slug: ":slug"
     * import_collection_assets venue: ":name", slug: ":slug", token_ids: [...]
+    * import_collection_events venue: ":name", slug: ":slug", token_ids: [...]
     """
     |> IO.puts()
 
