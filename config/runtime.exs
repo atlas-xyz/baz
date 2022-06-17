@@ -10,14 +10,13 @@ database_pool_size = String.to_integer(System.get_env("POOL_SIZE") || "10")
 
 config :baz, Baz.Repo,
   url: database_url,
-  pool_size: database_pool_size,
-  show_sensitive_data_on_connection_error: true
+  pool_size: database_pool_size
 
 # Oban Job Processing
 config :baz, Oban,
   repo: Baz.Repo,
   plugins: [
-    Oban.Plugins.Pruner,
+    Oban.Plugins.Pruner
     # {
     #   Oban.Plugins.Cron,
     #   crontab: [
@@ -32,25 +31,7 @@ config :baz, Oban,
   queues: [default: 10, imports: 5]
 
 # Baz
-config :baz, venues: %{
-  "open_sea" => %{
-    adapter: Baz.Mock.VenueAdapter,
-    collections: "*",
-    start_on_boot: false,
-    poll_stream_enabled: true,
-    websocket_stream_enabled: false,
-    credentials: %{},
-  },
-  "looks_rare" => %{
-    adapter: Baz.Mock.VenueAdapter,
-    collections: "*",
-    start_on_boot: false,
-    poll_stream_enabled: true,
-    websocket_stream_enabled: false,
-    credentials: %{},
-  }
-}
-
+config :baz, venues: %{}
 
 # config :baz, venue_subscriptions: %{
 #   "/consolidated_events/*/boredapeyachtclub" => {
@@ -102,6 +83,34 @@ if System.get_env("DEBUG") == "true" do
   config :logger, level: :debug
 end
 
+if config_env() == :dev do
+  config :baz, Baz.Repo, show_sensitive_data_on_connection_error: true
+
+  config :baz,
+    venues: %{
+      "open_sea" => %{
+        adapter: Baz.Mock.VenueAdapter,
+        collections: "*",
+        start_on_boot: false,
+        poll_stream_enabled: true,
+        websocket_stream_enabled: false,
+        credentials: %{}
+      },
+      "looks_rare" => %{
+        adapter: Baz.Mock.VenueAdapter,
+        collections: "*",
+        start_on_boot: false,
+        poll_stream_enabled: true,
+        websocket_stream_enabled: false,
+        credentials: %{}
+      }
+    }
+end
+
 if config_env() == :test do
+  config :baz, Baz.Repo,
+    pool: Ecto.Adapters.SQL.Sandbox,
+    show_sensitive_data_on_connection_error: true
+
   config :baz, Oban, testing: :inline
 end

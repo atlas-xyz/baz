@@ -11,8 +11,9 @@ defmodule Baz.MixProject do
       package: package(),
       description: description(),
       aliases: aliases(),
+      elixirc_paths: elixirc_paths(Mix.env()),
       dialyzer: [
-        plt_add_apps: [:mix, :iex],
+        plt_add_apps: [:mix, :iex, :ex_unit],
         ignore_warnings: ".dialyzer_ignore.exs"
       ]
     ]
@@ -28,7 +29,7 @@ defmodule Baz.MixProject do
 
   defp deps do
     [
-      {:ecto, "~> 3.6"},
+      {:ecto, "~> 3.8"},
       {:ecto_term, "~> 0.0.1"},
       {:ecto_sql, "~> 3.6"},
       {:etso, "~> 1.0.1"},
@@ -43,7 +44,7 @@ defmodule Baz.MixProject do
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:dialyxir, "~> 1.1", only: :dev, runtime: false},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
-      {:ex_unit_notifier, "~> 1.0", only: :test},
+      {:ex_unit_notifier, "~> 1.0", only: :test}
     ]
   end
 
@@ -58,6 +59,9 @@ defmodule Baz.MixProject do
       links: %{"GitHub" => "https://github.com/Tokenalysis/baz"}
     }
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp aliases do
     [
