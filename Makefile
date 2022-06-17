@@ -19,10 +19,10 @@ test.dialyzer:
 test.unit:
 	mix test
 
-start: start.iex
-
-start.iex:
-	iex --sname baz -S mix
+start: start.db start.iex
 
 start.db:
 	docker-compose up db
+
+start.iex:
+	iex --sname baz -S mix
