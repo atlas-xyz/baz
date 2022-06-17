@@ -8,7 +8,6 @@ defmodule Baz.IEx.Commands.Collections do
   @type opts :: Baz.Collections.filter_and_order_opts()
 
   @header [
-    "ID",
     "Venue",
     "Slug",
     "Name",
@@ -29,7 +28,6 @@ defmodule Baz.IEx.Commands.Collections do
     collections
     |> Enum.map(fn c ->
       [
-        c.id,
         c.venue,
         c.slug,
         c.name,

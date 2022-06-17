@@ -10,8 +10,7 @@ database_pool_size = String.to_integer(System.get_env("POOL_SIZE") || "10")
 
 config :baz, Baz.Repo,
   url: database_url,
-  pool_size: database_pool_size,
-  show_sensitive_data_on_connection_error: true
+  pool_size: database_pool_size
 
 # Oban Job Processing
 config :baz, Oban,
@@ -102,6 +101,15 @@ if System.get_env("DEBUG") == "true" do
   config :logger, level: :debug
 end
 
+if config_env() == :dev do
+  config :baz, Baz.Repo,
+    show_sensitive_data_on_connection_error: true
+end
+
 if config_env() == :test do
+  config :baz, Baz.Repo,
+    pool: Ecto.Adapters.SQL.Sandbox,
+    show_sensitive_data_on_connection_error: true
+
   config :baz, Oban, testing: :inline
 end
