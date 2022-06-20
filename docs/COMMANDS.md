@@ -13,11 +13,14 @@ iex(1)> help
 * collection_packs [where: [...], order: [...]]
 * collections [where: [...], order: [...]]
 * collection_assets [where: [...], order: [...]]
+* collection_events [where: [...], order: [...]]
 * venues [where: [...], order: [...]]
 * collection_imports [where: [...], order: [...]]
 * collection_asset_imports [where: [...], order: [...]]
+* collection_event_imports [where: [...], order: [...]]
 * import_collection venue: ":name", slug: ":slug"
 * import_collection_assets venue: ":name", slug: ":slug", token_ids: [...]
+* import_collection_events venue: ":name", slug: ":slug", token_ids: [...], type: ..., before: ..., after: ...
 ```
 
 ## collection_packs
@@ -57,6 +60,19 @@ iex(1)> collection_assets
 +----------+-------+----------+----------+
 | open_sea | azuki | 1        | Azuki #1 |
 +----------+-------+----------+----------+
+```
+
+## events
+
+List events that can optionally be filtered and ordered
+
+```elixir
+iex(1)> events
++-----------------------------+----------+-------+----------+-----------+
+| Timestamp                   | Venue    | Slug  | Token ID | Type      |
++-----------------------------+----------+-------+----------+-----------+
+| 2022-01-20 12:00:05.123456Z | open_sea | azuki | 1        | item_sold |
++-----------------------------+----------+-------+----------+-----------+
 ```
 
 ## venues
@@ -101,6 +117,19 @@ iex(1)> collection_asset_imports
 +----+----------+-------+-----------+-----------+---------------------+
 ```
 
+## event_imports
+
+List event_imports that can optionally be filtered and ordered
+
+```elixir
+iex(1)> event_imports
++----------+-------+-----------------------------+-----------------------------+-----------+------------------------+--------+
+| Venue    | Slug  | Before                      | After                       | Token IDs | Types                  | Status |
++----------+-------+-----------------------------+-----------------------------+-----------+------------------------+--------+
+| open_sea | azuki | 2022-01-20 12:00:05.123456Z | 2022-01-20 12:00:05.123456Z | 1, 2, 3   | item_listed, item_sold | active |
++----------+-------+-----------------------------+-----------------------------+-----------+------------------------+--------+
+```
+
 ## import_collection
 
 Import a collection from a venue by slug
@@ -143,4 +172,24 @@ iex(3)> collection_assets
 +----------+-------+----------+----------+
 | open_sea | azuki | 1        | Azuki #1 |
 +----------+-------+----------+----------+
+```
+
+## import_collection_events
+
+Import collection events for a collection from a venue by slug
+
+```elixir
+iex(1)> import_collection_events venue: "open_sea", slug: "azuki", before: ~U[2022-01-20 12:00:05.123456Z], after: ~U[2022-01-20 12:00:05.123456Z]
+iex(2)> collection_event_imports
++----------+-------+-----------------------------+-----------------------------+-----------+-------+--------+
+| Venue    | Slug  | Before                      | After                       | Token IDs | Types | Status |
++----------+-------+-----------------------------+-----------------------------+-----------+-------+--------+
+| open_sea | azuki | 2022-01-20 12:00:05.123456Z | 2022-01-20 12:00:05.123456Z | -         | -     | active |
++----------+-------+-----------------------------+-----------------------------+-----------+-------+--------+
+iex(3)> collection_events
++-----------------------------+----------+-------+----------+-----------+
+| Timestamp                   | Venue    | Slug  | Token ID | Type      |
++-----------------------------+----------+-------+----------+-----------+
+| 2022-01-20 12:00:02.443472Z | open_sea | azuki | 1        | item_sold |
++-----------------------------+----------+-------+----------+-----------+
 ```

@@ -1,6 +1,8 @@
 defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssets do
   @moduledoc """
-  TODO...
+  Fetches the collection assets, a page at a time matching the import filters:
+
+  - token_ids
   """
 
   use Oban.Worker, queue: :imports
@@ -16,7 +18,7 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssets do
     |> Oban.insert()
   rescue
     e ->
-      "unhandled error retrieving collection error=~s, stacktrace=~s"
+      "unhandled error retrieving collection assets error=~s, stacktrace=~s"
       |> :io_lib.format([
         e |> inspect,
         __STACKTRACE__ |> inspect
@@ -25,6 +27,8 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssets do
   end
 
   defp update_import_status(collection_asset_import, status) do
-    Baz.CollectionAssetImports.update_collection_asset_import(collection_asset_import, %{status: status})
+    Baz.CollectionAssetImports.update_collection_asset_import(collection_asset_import, %{
+      status: status
+    })
   end
 end

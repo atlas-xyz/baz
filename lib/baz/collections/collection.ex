@@ -6,15 +6,15 @@ defmodule Baz.Collections.Collection do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @type t :: struct
+  @type t :: Ecto.Schema.t()
 
   schema "collections" do
-    field :venue, :string
-    field :slug, :string
-    field :name, :string
-    field :description, :string
-    field :image_uri, :string
-    field :banner_image_uri, :string
+    field(:venue, :string)
+    field(:slug, :string)
+    field(:name, :string)
+    field(:description, :string)
+    field(:image_uri, :string)
+    field(:banner_image_uri, :string)
 
     timestamps()
   end

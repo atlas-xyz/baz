@@ -12,24 +12,6 @@ config :baz, Baz.Repo,
   url: database_url,
   pool_size: database_pool_size
 
-# Oban Job Processing
-config :baz, Oban,
-  repo: Baz.Repo,
-  plugins: [
-    Oban.Plugins.Pruner
-    # {
-    #   Oban.Plugins.Cron,
-    #   crontab: [
-    #     {"* * * * *", MyApp.MinuteWorker},
-    #     {"0 * * * *", MyApp.HourlyWorker, args: %{custom: "arg"}},
-    #     {"0 0 * * *", MyApp.DailyWorker, max_attempts: 1},
-    #     {"0 12 * * MON", MyApp.MondayWorker, queue: :scheduled, tags: ["mondays"]},
-    #     {"@daily", MyApp.AnotherDailyWorker}
-    #   ]
-    # }
-  ],
-  queues: [default: 10, imports: 5]
-
 # Baz
 config :baz, venues: %{}
 
@@ -71,6 +53,24 @@ config :baz, venues: %{}
 #   ]
 # }
 
+# Oban Job Processing
+config :baz, Oban,
+  repo: Baz.Repo,
+  plugins: [
+    Oban.Plugins.Pruner
+    # {
+    #   Oban.Plugins.Cron,
+    #   crontab: [
+    #     {"* * * * *", MyApp.MinuteWorker},
+    #     {"0 * * * *", MyApp.HourlyWorker, args: %{custom: "arg"}},
+    #     {"0 0 * * *", MyApp.DailyWorker, max_attempts: 1},
+    #     {"0 12 * * MON", MyApp.MondayWorker, queue: :scheduled, tags: ["mondays"]},
+    #     {"@daily", MyApp.AnotherDailyWorker}
+    #   ]
+    # }
+  ],
+  queues: [default: 10, imports: 5]
+
 # Logger
 config :logger,
   level: :info,
@@ -83,6 +83,7 @@ if System.get_env("DEBUG") == "true" do
   config :logger, level: :debug
 end
 
+# Dev
 if config_env() == :dev do
   config :baz, Baz.Repo, show_sensitive_data_on_connection_error: true
 
@@ -107,6 +108,7 @@ if config_env() == :dev do
     }
 end
 
+# Test
 if config_env() == :test do
   config :baz, Baz.Repo,
     pool: Ecto.Adapters.SQL.Sandbox,

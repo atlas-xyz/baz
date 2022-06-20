@@ -26,6 +26,8 @@ defmodule Baz.TestSupport.DataCase do
       import Baz.TestSupport.Factories.CollectionImportFactory
       import Baz.TestSupport.Factories.CollectionAssetFactory
       import Baz.TestSupport.Factories.CollectionAssetImportFactory
+      import Baz.TestSupport.Factories.CollectionEventFactory
+      import Baz.TestSupport.Factories.CollectionEventImportFactory
     end
   end
 

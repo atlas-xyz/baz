@@ -3,16 +3,16 @@ defmodule Baz.CollectionAssetImportPages.CollectionAssetImportPage do
   CollectionAssetImportPage resource
   """
 
-  @type t :: struct
+  @type t :: Ecto.Schema.t()
 
   use Ecto.Schema
   import Ecto.Changeset
   alias Baz.CollectionAssetImports.CollectionAssetImport
 
   schema "collection_asset_import_pages" do
-    field :page_number, :integer
-    field :next_page_cursor, :string
-    belongs_to :collection_asset_import, CollectionAssetImport
+    field(:page_number, :integer)
+    field(:next_page_cursor, :string)
+    belongs_to(:collection_asset_import, CollectionAssetImport)
 
     timestamps()
   end

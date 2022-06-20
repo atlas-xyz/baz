@@ -1,4 +1,4 @@
-defmodule <%= module_prefix %>.Repo.Migrations.CreateEvents do
+defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionEvents do
   use Ecto.Migration
 
   def change do
@@ -16,13 +16,14 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateEvents do
     drop_query = "DROP TYPE event_type"
     execute(create_query, drop_query)
 
-    create table(:events<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>) do
+    create table(:collection_events<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>) do
       add :venue, :text, null: false
+      add :slug, :text, null: false
+      add :token_id, :integer, null: false
       add :event_type, :event_type, null: false
-      add :event_timestamp, :utc_datetime
+      add :event_timestamp, :utc_datetime_usec
 
       timestamps()
     end
-
   end
 end

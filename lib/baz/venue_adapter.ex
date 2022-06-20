@@ -7,7 +7,7 @@ defmodule Baz.VenueAdapter do
   @type collection :: Collections.Collection.t()
   @type shared_errors :: :not_implemented | {:unhandled, term} | term
 
-  @type fetch_collection_by_slug_result :: Ecto.Changeset.t() | {:error, shared_errors}
+  @type fetch_collection_by_slug_result :: collection | {:error, shared_errors}
   @callback fetch_collection_by_slug(venue, collection_slug) :: fetch_collection_by_slug_result
 
   @spec fetch_collection_by_slug(venue, collection_slug) :: fetch_collection_by_slug_result
@@ -23,11 +23,36 @@ defmodule Baz.VenueAdapter do
   @type page_cursor :: Baz.Page.cursor()
 
   @type fetch_collection_asset_page_by_slug_result :: Baz.Page.t() | {:error, shared_errors}
-  @callback fetch_collection_asset_page_by_slug(venue, address, token_ids, page_cursor) :: fetch_collection_asset_page_by_slug_result
+  @callback fetch_collection_asset_page_by_slug(venue, collection_slug, token_ids, page_cursor) ::
+              fetch_collection_asset_page_by_slug_result
 
-  @spec fetch_collection_asset_page_by_slug(venue, address, token_ids, page_cursor) :: fetch_collection_asset_page_by_slug_result
-  def fetch_collection_asset_page_by_slug(venue, collection_address, token_ids, page_cursor) do
-    venue.adapter.fetch_collection_asset_page_by_slug(venue, collection_address, token_ids, page_cursor)
+  @spec fetch_collection_asset_page_by_slug(venue, collection_slug, token_ids, page_cursor) ::
+          fetch_collection_asset_page_by_slug_result
+  def fetch_collection_asset_page_by_slug(venue, slug, token_ids, page_cursor) do
+    venue.adapter.fetch_collection_asset_page_by_slug(
+      venue,
+      slug,
+      token_ids,
+      page_cursor
+    )
+  rescue
+    e ->
+      {:error, {:unhandled, {e, __STACKTRACE__}}}
+  end
+
+  @type fetch_collection_event_page_by_slug_result :: Baz.Page.t() | {:error, shared_errors}
+  @callback fetch_collection_event_page_by_slug(venue, collection_slug, token_ids, page_cursor) ::
+              fetch_collection_event_page_by_slug_result
+
+  @spec fetch_collection_event_page_by_slug(venue, collection_slug, token_ids, page_cursor) ::
+          fetch_collection_event_page_by_slug_result
+  def fetch_collection_event_page_by_slug(venue, slug, token_ids, page_cursor) do
+    venue.adapter.fetch_collection_event_page_by_slug(
+      venue,
+      slug,
+      token_ids,
+      page_cursor
+    )
   rescue
     e ->
       {:error, {:unhandled, {e, __STACKTRACE__}}}
