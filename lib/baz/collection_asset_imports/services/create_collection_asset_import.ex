@@ -4,9 +4,9 @@ defmodule Baz.CollectionAssetImports.Services.CreateCollectionAssetImport do
 
   @type attrs :: map
   @type error_reason :: term
-  @type collection_import :: struct
+  @type collection_asset_import :: CollectionAssetImports.CollectionAssetImport.t()
 
-  @spec call(attrs) :: {:ok, collection_import} | {:error, error_reason}
+  @spec call(attrs) :: {:ok, collection_asset_import} | {:error, error_reason}
   def call(attrs) do
     attrs = build_attrs(attrs)
 
@@ -14,9 +14,9 @@ defmodule Baz.CollectionAssetImports.Services.CreateCollectionAssetImport do
     |> CollectionAssetImports.CollectionAssetImport.changeset(attrs)
     |> Repo.insert()
     |> case do
-      {:ok, collection_import} ->
-        {:ok, _job} = insert_job(collection_import)
-        {:ok, collection_import}
+      {:ok, asset_import} ->
+        {:ok, _job} = insert_job(asset_import)
+        {:ok, asset_import}
 
       error ->
         error
@@ -27,8 +27,8 @@ defmodule Baz.CollectionAssetImports.Services.CreateCollectionAssetImport do
     Map.merge(attrs, %{"status" => "available"})
   end
 
-  defp insert_job(collection_import) do
-    %{collection_asset_import_id: collection_import.id}
+  defp insert_job(asset_import) do
+    %{collection_asset_import_id: asset_import.id}
     |> CollectionAssetImports.Jobs.PullCollectionAssets.new()
     |> Oban.insert()
   end

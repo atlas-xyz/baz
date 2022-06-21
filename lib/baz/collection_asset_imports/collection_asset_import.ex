@@ -4,18 +4,18 @@ defmodule Baz.CollectionAssetImports.CollectionAssetImport do
   """
 
   @type id :: non_neg_integer
-  @type t :: struct
+  @type t :: Ecto.Schema.t()
 
   use Ecto.Schema
   import Ecto.Changeset
   alias Baz.CollectionAssetImportPages.CollectionAssetImportPage
 
   schema "collection_asset_imports" do
-    field :venue, :string
-    field :slug, :string
-    field :token_ids, {:array, :integer}
-    field :status, :string
-    has_many :pages, CollectionAssetImportPage
+    field(:venue, :string)
+    field(:slug, :string)
+    field(:token_ids, {:array, :integer})
+    field(:status, :string)
+    has_many(:pages, CollectionAssetImportPage)
 
     timestamps()
   end
