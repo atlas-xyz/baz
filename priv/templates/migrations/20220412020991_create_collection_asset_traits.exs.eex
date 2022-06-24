@@ -1,0 +1,14 @@
+defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssetTraits do
+  use Ecto.Migration
+
+  def change do
+    create table(:collection_asset_traits) do
+      add :collection_asset_id, references(:collection_assets), null: false
+      add :trait_type, :text, null: false
+      add :value, :text, null: false
+      add :display_type, :text, null: true
+
+      timestamps()
+    end
+  end
+end
