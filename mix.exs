@@ -32,7 +32,7 @@ defmodule Baz.MixProject do
       {:ecto, "~> 3.8"},
       {:ecto_term, "~> 0.0.1"},
       {:ecto_sql, "~> 3.6"},
-      {:etso, "~> 1.0.1"},
+      {:etso, "~> 1.1.0"},
       {:juice, "~> 0.0.3"},
       {:oban, "~> 2.12"},
       {:postgrex, "~> 0.15"},
