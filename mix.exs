@@ -38,7 +38,7 @@ defmodule Baz.MixProject do
       {:postgrex, "~> 0.15"},
       {:ex_looks_rare, "~> 0.0.2"},
       {:ex_open_sea, "~> 0.0.6"},
-      {:ex_magic_eden, "~> 0.0.4"},
+      {:ex_magic_eden, "~> 0.0.6"},
       {:ex_x2y2, "~> 0.0.3"},
       {:table_rex, "~> 3.1"},
       {:timex, "~> 3.7"},
