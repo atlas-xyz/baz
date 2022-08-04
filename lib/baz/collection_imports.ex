@@ -71,4 +71,20 @@ defmodule Baz.CollectionImports do
     |> CollectionImport.changeset(attrs)
     |> Repo.update()
   end
+
+  @doc """
+  Deletes a collection_import.
+
+  ## Examples
+
+      iex> delete_collection_import(collection_import)
+      {:ok, %CollectionImport{}}
+
+      iex> delete_collection_import(collection_import)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_collection_import(%CollectionImport{} = collection_import) do
+    Repo.delete(collection_import)
+  end
 end

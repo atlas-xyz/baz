@@ -68,6 +68,19 @@ defmodule Baz.CollectionPacks do
   end
 
   @doc """
+  Returns an `%Ecto.Changeset{}` for tracking collection_pack changes.
+
+  ## Examples
+
+      iex> change_collection_pack(collection_pack)
+      %Ecto.Changeset{data: %CollectionPack{}}
+
+  """
+  def change_collection_pack(%CollectionPack{} = collection_pack, attrs \\ %{}) do
+    CollectionPack.changeset(collection_pack, attrs)
+  end
+
+  @doc """
   Deletes a collection_pack.
 
   ## Examples
@@ -81,18 +94,5 @@ defmodule Baz.CollectionPacks do
   """
   def delete_collection_pack(%CollectionPack{} = collection_pack) do
     Repo.delete(collection_pack)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking collection_pack changes.
-
-  ## Examples
-
-      iex> change_collection_pack(collection_pack)
-      %Ecto.Changeset{data: %CollectionPack{}}
-
-  """
-  def change_collection_pack(%CollectionPack{} = collection_pack, attrs \\ %{}) do
-    CollectionPack.changeset(collection_pack, attrs)
   end
 end
