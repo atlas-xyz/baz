@@ -14,7 +14,7 @@ defmodule Baz.CollectionEventImports.CollectionEventImport do
     field(:slug, :string)
     field(:before, :utc_datetime_usec)
     field(:after, :utc_datetime_usec)
-    field(:token_ids, {:array, :integer})
+    field(:token_ids, Baz.EctoTypes.Integers)
     field(:event_types, {:array, :string})
     field(:status, :string)
     has_many(:pages, CollectionEventImportPage)
