@@ -36,4 +36,20 @@ defmodule Baz.Collections do
   def collection_changeset(attrs) do
     Collection.changeset(%Collection{}, attrs)
   end
+
+  @doc """
+  Deletes a collection.
+
+  ## Examples
+
+      iex> delete_collection(collection)
+      {:ok, %Collection{}}
+
+      iex> delete_collection(collection)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_collection(%Collection{} = collection) do
+    Repo.delete(collection)
+  end
 end
