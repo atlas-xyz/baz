@@ -33,6 +33,20 @@ defmodule Baz.CollectionEventImports do
   @spec get_collection_event_import!(non_neg_integer) :: collection_event_import
   def get_collection_event_import!(id), do: Repo.get_by!(CollectionEventImport, id: id)
 
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking collection_event_import changes.
+
+  ## Examples
+
+      iex> change_collection_event_import(collection_event_import)
+      %Ecto.Changeset{data: %CollectionAssetImport{}}
+
+  """
+  @spec change_collection_event_import(collection_event_import, map) :: Ecto.Changeset.t()
+  def change_collection_event_import(collection_event_import, attrs \\ %{}) do
+    CollectionEventImport.changeset(collection_event_import, attrs)
+  end
+
   @type create_attrs :: Services.CreateCollectionEventImport.attrs()
   @spec create_collection_event_import(create_attrs) ::
           {:ok, collection_event_import}
