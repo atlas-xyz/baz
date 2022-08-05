@@ -36,4 +36,20 @@ defmodule Baz.CollectionAssets do
   def collection_asset_changeset(attrs) do
     CollectionAsset.changeset(%CollectionAsset{}, attrs)
   end
+
+  @doc """
+  Deletes a collection_asset.
+
+  ## Examples
+
+      iex> delete_collection_asset(collection_asset)
+      {:ok, %CollectionAsset{}}
+
+      iex> delete_collection_asset(collection_asset)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_collection_asset(%CollectionAsset{} = collection_asset) do
+    Repo.delete(collection_asset)
+  end
 end
