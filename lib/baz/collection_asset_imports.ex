@@ -71,4 +71,20 @@ defmodule Baz.CollectionAssetImports do
     |> CollectionAssetImport.changeset(attrs)
     |> Repo.update()
   end
+
+  @doc """
+  Deletes a collection_asset_import.
+
+  ## Examples
+
+      iex> delete_collection_asset_import(collection_asset_import)
+      {:ok, %CollectionAssetImport{}}
+
+      iex> delete_collection_asset_import(collection_asset_import)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_collection_asset_import(%CollectionAssetImport{} = collection_asset_import) do
+    Repo.delete(collection_asset_import)
+  end
 end
