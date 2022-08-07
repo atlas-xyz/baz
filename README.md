@@ -106,7 +106,7 @@ drop us an email or open a Github issue.
 
 ## Authors
 
-- Alex Kwiatkowski - alex@tokenalysis.io
+- Alex Kwiatkowski - alex@atlas.xyz
 
 ## License
 
