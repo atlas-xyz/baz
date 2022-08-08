@@ -3,11 +3,21 @@ defmodule Baz.CollectionAssets do
   alias Baz.CollectionAssets.CollectionAsset
   alias Baz.CollectionAssets.Queries
 
-  @type where_opt :: {:where, [{atom, term}]}
-  @type order_opt :: {:order, [atom]}
-  @type collection_asset :: struct
+  @type where_opt :: Queries.FilterAndOrder.where_opt()
+  @type order_opt :: Queries.FilterAndOrder.order_opt()
+  @type collection_asset :: CollectionAsset.t()
 
   @type filter_and_order_opts :: [where_opt | order_opt]
+
+  @doc """
+  Gets collection_assets that match the where clause sorted by the order clause.
+
+  ## Examples
+
+      iex> filter_and_order(where: [venue: "open_sea"], order: [desc: :venue])
+      [%CollectionAsset{}]
+
+  """
   @spec filter_and_order(filter_and_order_opts) :: [collection_asset]
   def filter_and_order(opts) do
     opts

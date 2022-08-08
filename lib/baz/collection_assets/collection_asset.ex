@@ -6,7 +6,7 @@ defmodule Baz.CollectionAssets.CollectionAsset do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @type t :: struct
+  @type t :: Ecto.Schema.t()
 
   schema "collection_assets" do
     field :venue, :string
