@@ -2,6 +2,7 @@ defmodule Baz.CollectionAssets do
   alias Baz.Repo
   alias Baz.CollectionAssets.CollectionAsset
   alias Baz.CollectionAssets.Queries
+  alias Baz.CollectionAssets.Services
 
   @type where_opt :: Queries.FilterAndOrder.where_opt()
   @type order_opt :: Queries.FilterAndOrder.order_opt()
