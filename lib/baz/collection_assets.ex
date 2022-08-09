@@ -47,6 +47,13 @@ defmodule Baz.CollectionAssets do
     CollectionAsset.changeset(%CollectionAsset{}, attrs)
   end
 
+  @spec create_collection_asset(map) :: {:ok, collection_asset} | {:error, term}
+  def create_collection_asset(attrs) do
+    %CollectionAsset{}
+    |> CollectionAsset.changeset(attrs)
+    |> Repo.insert()
+  end
+
   @doc """
   Deletes a collection_asset.
 
