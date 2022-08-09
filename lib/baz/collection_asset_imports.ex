@@ -4,11 +4,21 @@ defmodule Baz.CollectionAssetImports do
   alias Baz.CollectionAssetImports.Queries
   alias Baz.CollectionAssetImports.Services
 
-  @type where_opt :: {:where, [{atom, term}]}
-  @type order_opt :: {:order, [atom]}
+  @type where_opt :: Queries.FilterAndOrder.where_opt()
+  @type order_opt :: Queries.FilterAndOrder.order_opt()
   @type collection_asset_import :: CollectionAssetImport.t()
 
   @type filter_and_order_opts :: [where_opt | order_opt]
+
+  @doc """
+  Gets collection_asset_imports that match the where clause sorted by the order clause.
+
+  ## Examples
+
+      iex> filter_and_order(where: [venue: "open_sea"], order: [desc: :venue])
+      [%CollectionAssetImport{}]
+
+  """
   @spec filter_and_order(filter_and_order_opts) :: [collection_asset_import]
   def filter_and_order(opts) do
     opts

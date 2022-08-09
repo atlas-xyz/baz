@@ -3,12 +3,12 @@ defmodule Baz.CollectionAssetImports.CollectionAssetImport do
   CollectionAssetImport resource
   """
 
-  @type id :: non_neg_integer
-  @type t :: Ecto.Schema.t()
-
   use Ecto.Schema
   import Ecto.Changeset
   alias Baz.CollectionAssetImportPages.CollectionAssetImportPage
+
+  @type id :: non_neg_integer
+  @type t :: Ecto.Schema.t()
 
   schema "collection_asset_imports" do
     field(:venue, :string)
