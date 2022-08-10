@@ -3,11 +3,8 @@ defmodule Baz.CollectionEvents do
   alias Baz.CollectionEvents.CollectionEvent
   alias Baz.CollectionEvents.Queries
 
-  @type where_opt :: Queries.FilterAndOrder.where_opt()
-  @type order_opt :: Queries.FilterAndOrder.order_opt()
   @type collection_event :: CollectionEvent.t()
-
-  @type filter_and_order_opts :: [where_opt | order_opt]
+  @type filter_and_order_opts :: Queries.FilterAndOrder.opts()
 
   @doc """
   Gets collection_assets that match the where clause sorted by the order clause.
