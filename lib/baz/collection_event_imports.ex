@@ -4,11 +4,18 @@ defmodule Baz.CollectionEventImports do
   alias Baz.CollectionEventImports.Queries
   alias Baz.CollectionEventImports.Services
 
-  @type where_opt :: {:where, [{atom, term}]}
-  @type order_opt :: {:order, [atom]}
   @type collection_event_import :: CollectionEventImport.t()
+  @type filter_and_order_opts :: Queries.FilterAndOrder.opts()
 
-  @type filter_and_order_opts :: [where_opt | order_opt]
+  @doc """
+  Gets collection_assets that match the where clause sorted by the order clause.
+
+  ## Examples
+
+      iex> filter_and_order(where: [venue: "open_sea"], order: [desc: :venue])
+      [%CollectionEventImport{}]
+
+  """
   @spec filter_and_order(filter_and_order_opts) :: [collection_event_import]
   def filter_and_order(opts) do
     opts
