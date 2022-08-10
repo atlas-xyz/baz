@@ -46,7 +46,7 @@ defmodule Baz.CollectionEventImports do
   ## Examples
 
       iex> change_collection_event_import(collection_event_import)
-      %Ecto.Changeset{data: %CollectionAssetImport{}}
+      %Ecto.Changeset{data: %CollectionEventImport{}}
 
   """
   @spec change_collection_event_import(collection_event_import, map) :: Ecto.Changeset.t()
@@ -80,5 +80,21 @@ defmodule Baz.CollectionEventImports do
     collection_event_import
     |> CollectionEventImport.changeset(attrs)
     |> Repo.update()
+  end
+
+  @doc """
+  Deletes a collection_event_import.
+
+  ## Examples
+
+      iex> delete_collection_event_import(collection_event_import)
+      {:ok, %CollectionEventImport{}}
+
+      iex> delete_collection_event_import(collection_event_import)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_collection_event_import(%CollectionEventImport{} = collection_event_import) do
+    Repo.delete(collection_event_import)
   end
 end
