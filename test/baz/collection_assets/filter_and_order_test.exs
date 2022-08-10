@@ -1,4 +1,4 @@
-defmodule Baz.CollectionAssetsTest do
+defmodule Baz.CollectionAssets.FilterAndOrderTest do
   use Baz.TestSupport.DataCase, async: false
 
   test ".filter_and_order/1 can filter by attributes" do
