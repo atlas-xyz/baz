@@ -50,4 +50,20 @@ defmodule Baz.CollectionEvents do
     |> CollectionEvent.changeset(attrs)
     |> Repo.insert()
   end
+
+  @doc """
+  Deletes a collection_event.
+
+  ## Examples
+
+      iex> delete_collection_event(collection_event)
+      {:ok, %CollectionEvent{}}
+
+      iex> delete_collection_event(collection_event)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_collection_event(%CollectionEvent{} = collection_event) do
+    Repo.delete(collection_event)
+  end
 end
