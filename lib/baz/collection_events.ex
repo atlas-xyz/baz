@@ -7,12 +7,12 @@ defmodule Baz.CollectionEvents do
   @type filter_and_order_opts :: Queries.FilterAndOrder.opts()
 
   @doc """
-  Gets collection_assets that match the where clause sorted by the order clause.
+  Gets collection_events that match the where clause sorted by the order clause.
 
   ## Examples
 
       iex> filter_and_order(where: [venue: "open_sea"], order: [desc: :venue])
-      [%CollectionAsset{}]
+      [%CollectionEvent{}]
 
   """
   @spec filter_and_order(filter_and_order_opts) :: [collection_event]
@@ -42,5 +42,12 @@ defmodule Baz.CollectionEvents do
   @spec collection_event_changeset(map) :: Ecto.Changeset.t() | {:error, term}
   def collection_event_changeset(attrs) do
     CollectionEvent.changeset(%CollectionEvent{}, attrs)
+  end
+
+  @spec create_collection_event(map) :: {:ok, collection_event} | {:error, term}
+  def create_collection_event(attrs) do
+    %CollectionEvent{}
+    |> CollectionEvent.changeset(attrs)
+    |> Repo.insert()
   end
 end
