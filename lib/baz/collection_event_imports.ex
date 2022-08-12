@@ -41,6 +41,32 @@ defmodule Baz.CollectionEventImports do
   def get_collection_event_import!(id), do: Repo.get_by!(CollectionEventImport, id: id)
 
   @doc """
+  Returns a `%CollectionEventImport{}` initialized with a week before today date range
+
+  ## Examples
+
+      iex> collection_event_import_today(%{})
+      %CollectionEventImport{}
+
+  """
+  @spec collection_event_import_today(map) :: collection_event_import
+  def collection_event_import_today(params) do
+    now = DateTime.utc_now()
+    {:ok, date_now} = Date.new(now.year, now.month, now.day)
+    {:ok, time_now} = Time.new(now.hour, 0, 0)
+    {:ok, current_hour} = DateTime.new(date_now, time_now)
+    after_date = current_hour |> Timex.shift(days: -7)
+    before_date = current_hour |> Timex.shift(hours: 1)
+
+    %CollectionEventImport{}
+    |> Map.merge(params)
+    |> Map.merge(%{
+      after: after_date,
+      before: before_date
+    })
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for tracking collection_event_import changes.
 
   ## Examples

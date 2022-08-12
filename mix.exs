@@ -41,6 +41,7 @@ defmodule Baz.MixProject do
       {:ex_magic_eden, "~> 0.0.4"},
       {:ex_x2y2, "~> 0.0.3"},
       {:table_rex, "~> 3.1"},
+      {:timex, "~> 3.7"},
       {:logger_file_backend, "~> 0.0.1", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:dialyxir, "~> 1.1", only: :dev, runtime: false},

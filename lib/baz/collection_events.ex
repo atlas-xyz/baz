@@ -39,6 +39,15 @@ defmodule Baz.CollectionEvents do
   @spec get_collection_event!(non_neg_integer) :: collection_event
   def get_collection_event!(id), do: Repo.get_by!(CollectionEvent, id: id)
 
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking collection_event changes.
+
+  ## Examples
+
+      iex> collection_event_changeset(%{})
+      %CollectionEvent{}
+
+  """
   @spec collection_event_changeset(map) :: Ecto.Changeset.t() | {:error, term}
   def collection_event_changeset(attrs) do
     CollectionEvent.changeset(%CollectionEvent{}, attrs)
