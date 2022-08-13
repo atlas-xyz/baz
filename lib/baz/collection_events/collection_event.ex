@@ -8,10 +8,10 @@ defmodule Baz.CollectionEvents.CollectionEvent do
 
   @type t :: Ecto.Schema.t()
 
+  @primary_key false
+
   schema "collection_events" do
-    field(:venue, :string)
-    field(:slug, :string)
-    field(:token_id, :integer)
+    field(:event_timestamp, :utc_datetime_usec)
 
     field(:event_type, Ecto.Enum,
       values: [
@@ -21,11 +21,20 @@ defmodule Baz.CollectionEvents.CollectionEvent do
         :item_metadata_update,
         :item_canceled,
         :item_received_offer,
-        :item_received_bid
+        :item_received_bid,
+        :created,
+        :successful,
+        :collection_offer,
+        :trait_offer,
+        :bid_entered,
+        :cancelled,
+        :transfer
       ]
     )
 
-    field(:event_timestamp, :utc_datetime_usec)
+    field(:venue, :string)
+    field(:slug, :string)
+    field(:token_id, :integer)
 
     timestamps()
   end
@@ -34,18 +43,17 @@ defmodule Baz.CollectionEvents.CollectionEvent do
   def changeset(collection, attrs) do
     collection
     |> cast(attrs, [
+      :event_timestamp,
+      :event_type,
       :venue,
       :slug,
-      :token_id,
-      :event_type,
-      :event_timestamp
+      :token_id
     ])
     |> validate_required([
-      :venue,
-      :slug,
-      :token_id,
+      :event_timestamp,
       :event_type,
-      :event_timestamp
+      :venue,
+      :slug
     ])
   end
 end

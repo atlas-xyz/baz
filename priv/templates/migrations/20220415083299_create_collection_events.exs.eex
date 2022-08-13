@@ -1,7 +1,7 @@
 defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionEvents do
   use Ecto.Migration
 
-  def change do
+  def up do
     create_query = """
     CREATE TYPE event_type AS ENUM (
       'item_listed',
@@ -10,20 +10,33 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionEvents do
       'item_metadata_update',
       'item_canceled',
       'item_received_offer',
-      'item_received_bid'
+      'item_received_bid',
+      'created',
+      'successful',
+      'collection_offer',
+      'trait_offer',
+      'bid_entered',
+      'cancelled',
+      'transfer'
     )
     """
-    drop_query = "DROP TYPE event_type"
-    execute(create_query, drop_query)
+    execute(create_query)
 
-    create table(:collection_events<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>) do
+    create table(:collection_events<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>, primary_key: false) do
+      add :event_timestamp, :utc_datetime_usec, null: false
+      add :event_type, :event_type, null: false
       add :venue, :text, null: false
       add :slug, :text, null: false
-      add :token_id, :integer, null: false
-      add :event_type, :event_type, null: false
-      add :event_timestamp, :utc_datetime_usec
+      add :token_id, :integer
 
       timestamps()
     end
+
+    execute "SELECT create_hypertable('collection_events', 'event_timestamp');"
+  end
+
+  def down do
+    drop table(:collection_events<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>)
+    execute("DROP TYPE event_type")
   end
 end
