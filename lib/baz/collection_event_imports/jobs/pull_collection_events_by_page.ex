@@ -39,29 +39,36 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
 
         import_page = Ecto.build_assoc(event_import, :pages, import_page_attrs)
 
-        multi =
-          Ecto.Multi.new()
-          |> Ecto.Multi.insert(
-            :import_page,
-            import_page
-          )
+        #multi =
+          #  Ecto.Multi.new()
+      #|> Ecto.Multi.insert(
+        #    :import_page,
+        #      import_page
+        #  )
+        Repo.insert(import_page)
 
-        page.data
-        |> Enum.with_index()
-        |> Enum.reduce(
-          multi,
-          fn {event, index}, multi ->
+          #page.data
+          #|> Enum.with_index()
+      #|> Enum.reduce(
+        #    multi,
+        #fn {event, index}, multi ->
             # TODO: support multiple strategies
             # - :nothing
             # - :replace
-            Ecto.Multi.insert(
-              multi,
-              {:collection_event, index},
-              event
-            )
-          end
-        )
-        |> Repo.transaction()
+      #Ecto.Multi.insert(
+      #        multi,
+        #        {:collection_event, index},
+        #      event
+        #    )
+        #  end
+          #)
+        #|> Repo.transaction()
+
+
+        page.data
+        |> Enum.map(fn event ->
+          Repo.insert(event)
+        end)
 
         if import_page.next_page_cursor != nil do
           # TODO: Extract out into facade function
