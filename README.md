@@ -18,6 +18,7 @@ Stream NFT market data to create and manage orders with a near-uniform API acros
 | LooksRare  |     [ ]     |  [ ]   |  [ ]   |
 | X2Y2       |     [ ]     |  [ ]   |  [ ]   |
 | Magic Eden |     [ ]     |  [ ]   |  [ ]   |
+| Hyperspace |     [ ]     |  [ ]   |  [ ]   |
 
 ## Requirements
 
