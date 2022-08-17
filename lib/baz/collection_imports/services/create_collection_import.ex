@@ -29,7 +29,7 @@ defmodule Baz.CollectionImports.Services.CreateCollectionImport do
 
   defp insert_job(collection_import) do
     %{id: collection_import.id}
-    |> CollectionImports.Jobs.RetrieveCollection.new()
+    |> CollectionImports.Jobs.PullCollection.new()
     |> Oban.insert()
   end
 end
