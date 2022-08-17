@@ -1,18 +1,23 @@
 defmodule Baz.CollectionImports.Jobs.PullCollection do
+  @moduledoc """
+  Fetch collection data from a venue and normalize before passing through the sink pipeline
+  """
+
   use Oban.Worker, queue: :imports
   require Logger
-  alias Baz.Repo
 
   defmodule Input do
-    defstruct ~w[import]a
+    defstruct ~w[import sinks]a
   end
 
   @impl Oban.Worker
   def perform(%Oban.Job{args: %{"id" => id}}) do
     collection_import = Baz.CollectionImports.get_collection_import!(id)
+    collection_sinks = Baz.NormalizedSinks.get_collection_normalized_sinks()
 
     %Input{
-      import: collection_import
+      import: collection_import,
+      sinks: collection_sinks
     }
     |> start_import()
     |> fetch_and_upsert()
@@ -35,8 +40,8 @@ defmodule Baz.CollectionImports.Jobs.PullCollection do
 
     case Baz.VenueAdapter.fetch_collection_by_slug(venue, slug) do
       %Ecto.Changeset{} = changeset ->
-        result = Repo.insert(changeset, on_conflict: :nothing)
-        {input, result}
+        result = input.sinks |> Enum.map(fn s -> s.receive_collection_import(changeset) end)
+        {input, {:ok, result}}
 
       {:error, reason} = error ->
         "could not retrieve collection venue=~s, slug=~s, reason=~s"

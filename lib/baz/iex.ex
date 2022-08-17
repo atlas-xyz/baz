@@ -8,6 +8,9 @@ defmodule Baz.IEx do
   @spec help :: no_return
   defdelegate help, to: Commands.Help
 
+  @spec normalized_sinks() :: no_return
+  defdelegate normalized_sinks(options \\ []), to: Commands.NormalizedSinks, as: :filter_and_order
+
   @spec collection_packs() :: no_return
   @spec collection_packs(Commands.CollectionPacks.opts()) :: no_return
   defdelegate collection_packs(options \\ []), to: Commands.CollectionPacks, as: :filter_and_order

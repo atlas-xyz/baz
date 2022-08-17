@@ -13,13 +13,23 @@ config :baz, Baz.Repo,
   pool_size: database_pool_size,
   show_sensitive_data_on_connection_error: true
 
-# Oban
+# Oban Job Processing
 config :baz, Oban,
   repo: Baz.Repo,
   plugins: [Oban.Plugins.Pruner],
   queues: [default: 10, backfills: 5]
 
-# Baz
+# Baz Core
+config :baz,
+  normalized_sinks: %{
+    collection_packs: [Baz.Sinks.Timescale],
+    collections: [Baz.Sinks.Timescale],
+    collection_traits: [Baz.Sinks.Timescale],
+    collection_assets: [Baz.Sinks.Timescale],
+    collection_asset_traits: [Baz.Sinks.Timescale],
+    collection_events: [Baz.Sinks.Timescale]
+  }
+
 config :baz, venues: %{
   "open_sea" => {
     Baz.Mock.VenueAdapter,
