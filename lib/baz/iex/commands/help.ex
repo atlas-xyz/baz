@@ -6,6 +6,7 @@ defmodule Baz.IEx.Commands.Help do
   @spec help :: no_return
   def help do
     """
+    * sinks
     * collection_packs [where: [...], order: [...]]
     * collections [where: [...], order: [...]]
     * collection_assets [where: [...], order: [...]]

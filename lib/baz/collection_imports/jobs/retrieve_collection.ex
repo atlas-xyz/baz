@@ -4,15 +4,17 @@ defmodule Baz.CollectionImports.Jobs.RetrieveCollection do
   alias Baz.Repo
 
   defmodule Input do
-    defstruct ~w[import]a
+    defstruct ~w[import sinks]a
   end
 
   @impl Oban.Worker
   def perform(%Oban.Job{args: %{"id" => id}}) do
     collection_import = Baz.CollectionImports.get_collection_import!(id)
+    collection_sinks = Baz.Sinks.get_collection_sinks()
 
     %Input{
-      import: collection_import
+      import: collection_import,
+      sinks: collection_sinks
     }
     |> start_import()
     |> fetch_and_upsert()
@@ -35,6 +37,7 @@ defmodule Baz.CollectionImports.Jobs.RetrieveCollection do
 
     case Baz.VenueAdapter.fetch_collection_by_slug(venue, slug) do
       %Ecto.Changeset{} = changeset ->
+        # input.collection_sinks
         result = Repo.insert(changeset, on_conflict: :nothing)
         {input, result}
 

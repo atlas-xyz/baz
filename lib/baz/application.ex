@@ -9,6 +9,7 @@ defmodule Baz.Application do
     children = [
       Baz.MemoryRepo,
       Baz.Repo,
+      Baz.Sinks.SinkStore,
       {Oban, Application.fetch_env!(:baz, Oban)}
       # TODO: Allow this to be configured by apps using baz
       # {Phoenix.PubSub, name: Baz.PubSub}
@@ -21,8 +22,22 @@ defmodule Baz.Application do
   @impl true
   def start_phase(:venues, _start_type, _phase_args) do
     {load_success, load_error} = Baz.Venues.load_config()
-    Logger.info "loaded venues - success: #{load_success}, error: #{load_error}"
+    "loaded venues: success=~w, error=~w" |> format_log_info([load_success, load_error])
 
     :ok
+  end
+
+  @impl true
+  def start_phase(:sinks, _start_type, _phase_args) do
+    {load_success, load_error} = Baz.Sinks.load_config()
+    "loaded sinks: success=~w, error=~w" |> format_log_info([load_success, load_error])
+
+    :ok
+  end
+
+  defp format_log_info(format, data) do
+    format
+    |> :io_lib.format(data)
+    |> Logger.info()
   end
 end

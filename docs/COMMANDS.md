@@ -10,6 +10,7 @@ Display the available commands and usage examples
 
 ```elixir
 iex(1)> help
+* sinks
 * collection_packs [where: [...], order: [...]]
 * collections [where: [...], order: [...]]
 * collection_assets [where: [...], order: [...]]
@@ -21,6 +22,24 @@ iex(1)> help
 * import_collection venue: ":name", slug: ":slug"
 * import_collection_assets venue: ":name", slug: ":slug", token_ids: [...]
 * import_collection_events venue: ":name", slug: ":slug", token_ids: [...], type: ..., before: ..., after: ...
+```
+
+## sinks
+
+List sinks for each resource
+
+```elixir
+iex(1)> sinks
++-------------------------+---------------------+
+| Resource                | Sinks               |
++-------------------------+---------------------+
+| collection_packs        | Baz.Sinks.Timescale |
+| collections             | Baz.Sinks.Timescale |
+| collection_traits       | Baz.Sinks.Timescale |
+| collection_assets       | Baz.Sinks.Timescale |
+| collection_asset_traits | Baz.Sinks.Timescale |
+| collection_events       | Baz.Sinks.Timescale |
++-------------------------+---------------------+
 ```
 
 ## collection_packs

@@ -12,9 +12,6 @@ config :baz, Baz.Repo,
   url: database_url,
   pool_size: database_pool_size
 
-# Baz
-config :baz, venues: %{}
-
 # Oban Job Processing
 config :baz, Oban,
   repo: Baz.Repo,
@@ -32,6 +29,10 @@ config :baz, Oban,
     # }
   ],
   queues: [default: 10, imports: 5]
+
+# Baz Core
+config :baz, sinks: %{}
+config :baz, venues: %{}
 
 # Logger
 config :logger,
