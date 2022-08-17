@@ -3,48 +3,61 @@ defmodule Baz.CollectionImports.Jobs.RetrieveCollection do
   require Logger
   alias Baz.Repo
 
+  defmodule Input do
+    defstruct ~w[import]a
+  end
+
   @impl Oban.Worker
   def perform(%Oban.Job{args: %{"id" => id}}) do
     collection_import = Baz.CollectionImports.get_collection_import!(id)
-    {:ok, collection_import} = update_import_status(collection_import, "executing")
-    result = get_and_upsert_collection(collection_import)
-    {:ok, _collection_import} = update_import_status(collection_import, "completed")
 
-    result
+    %Input{
+      import: collection_import
+    }
+    |> start_import()
+    |> fetch_and_upsert()
+    |> complete_import()
   rescue
     e ->
       "unhandled error retrieving collection error=~s, stacktrace=~s"
-      |> :io_lib.format([
-        e |> inspect,
-        __STACKTRACE__ |> inspect
-      ])
-      |> Logger.error()
+      |> format_log_error([inspect(e), inspect(__STACKTRACE__)])
   end
 
-  defp get_and_upsert_collection(collection_import) do
-    venue = Baz.Venues.get_venue!(collection_import.venue)
+  defp start_import(input) do
+    {:ok, collection_import} = update_import_status(input.import, "executing")
+    %{input | import: collection_import}
+  end
 
-    case Baz.VenueAdapter.fetch_collection_by_slug(venue, collection_import.slug) do
+  defp fetch_and_upsert(input) do
+    venue_name = input.import.venue
+    slug = input.import.slug
+    venue = Baz.Venues.get_venue!(venue_name)
+
+    case Baz.VenueAdapter.fetch_collection_by_slug(venue, slug) do
       %Ecto.Changeset{} = changeset ->
-        # TODO: support multiple strategies
-        # - :nothing
-        # - :replace
-        Repo.insert(changeset, on_conflict: :nothing)
+        result = Repo.insert(changeset, on_conflict: :nothing)
+        {input, result}
 
       {:error, reason} = error ->
-        "could not retrieve collection slug=~s, venue=~s, reason=~s"
-        |> :io_lib.format([
-          collection_import.slug,
-          venue.name,
-          reason |> inspect
-        ])
-        |> Logger.error()
+        "could not retrieve collection venue=~s, slug=~s, reason=~s"
+        |> format_log_error([venue_name, slug, inspect(reason)])
 
-        error
+        {input, error}
     end
+  end
+
+  defp complete_import({input, fetch_and_upsert_result}) do
+    {:ok, _collection_import} = update_import_status(input.import, "completed")
+    fetch_and_upsert_result
   end
 
   defp update_import_status(collection_import, status) do
     Baz.CollectionImports.update_collection_import(collection_import, %{status: status})
+  end
+
+  defp format_log_error(format, data) do
+    format
+    |> :io_lib.format(data)
+    |> Logger.error()
   end
 end
