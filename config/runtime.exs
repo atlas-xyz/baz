@@ -12,9 +12,6 @@ config :baz, Baz.Repo,
   url: database_url,
   pool_size: database_pool_size
 
-# Baz
-config :baz, venues: %{}
-
 # Oban Job Processing
 config :baz, Oban,
   repo: Baz.Repo,
@@ -33,6 +30,10 @@ config :baz, Oban,
   ],
   queues: [default: 10, imports: 5]
 
+# Baz Core
+config :baz, normalized_sinks: %{}
+config :baz, venues: %{}
+
 # Logger
 config :logger,
   level: :info,
@@ -48,6 +49,15 @@ end
 # Dev
 if config_env() == :dev do
   config :baz, Baz.Repo, show_sensitive_data_on_connection_error: true
+
+  config :baz, normalized_sinks: %{
+    collection_packs: [Baz.NormalizedSinks.Timescale, Baz.NormalizedSinks.Logger],
+    collections: [Baz.NormalizedSinks.Timescale, Baz.NormalizedSinks.Logger],
+    collection_traits: [Baz.NormalizedSinks.Timescale, Baz.NormalizedSinks.Logger],
+    collection_assets: [Baz.NormalizedSinks.Timescale, Baz.NormalizedSinks.Logger],
+    collection_asset_traits: [Baz.NormalizedSinks.Timescale, Baz.NormalizedSinks.Logger],
+    collection_events: [Baz.NormalizedSinks.Timescale, Baz.NormalizedSinks.Logger]
+  }
 
   config :baz,
     venues: %{

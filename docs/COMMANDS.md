@@ -10,6 +10,7 @@ Display the available commands and usage examples
 
 ```elixir
 iex(1)> help
+* normalized_sinks
 * collection_packs [where: [...], order: [...]]
 * collections [where: [...], order: [...]]
 * collection_assets [where: [...], order: [...]]
@@ -21,6 +22,24 @@ iex(1)> help
 * import_collection venue: ":name", slug: ":slug"
 * import_collection_assets venue: ":name", slug: ":slug", token_ids: [...]
 * import_collection_events venue: ":name", slug: ":slug", token_ids: [...], type: ..., before: ..., after: ...
+```
+
+## sinks
+
+List normalized sinks for each resource
+
+```elixir
+iex(1)> normalized_sinks
++-------------------------+--------------------------------------+
+| Resource                | Sinks                                |
++-------------------------+--------------------------------------+
+| collection_packs        | Elixir.Baz.NormalizedSinks.Timescale |
+| collections             | Elixir.Baz.NormalizedSinks.Timescale |
+| collection_traits       | Elixir.Baz.NormalizedSinks.Timescale |
+| collection_assets       | Elixir.Baz.NormalizedSinks.Timescale |
+| collection_asset_traits | Elixir.Baz.NormalizedSinks.Timescale |
+| collection_events       | Elixir.Baz.NormalizedSinks.Timescale |
++-------------------------+--------------------------------------+
 ```
 
 ## collection_packs

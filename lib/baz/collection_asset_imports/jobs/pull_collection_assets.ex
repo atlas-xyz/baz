@@ -1,7 +1,9 @@
 defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssets do
   @moduledoc """
-  Fetches the collection assets, a page at a time matching the import filters:
+  Fetch collection assets one page at a time matching the import filters:
 
+  - venue
+  - slug
   - token_ids
   """
 
@@ -10,25 +12,20 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssets do
 
   @impl Oban.Worker
   def perform(%Oban.Job{args: %{"collection_asset_import_id" => import_id}}) do
-    collection_asset_import = Baz.CollectionAssetImports.get_collection_asset_import!(import_id)
-    {:ok, _collection_asset_import} = update_import_status(collection_asset_import, "executing")
+    asset_import = Baz.CollectionAssetImports.get_collection_asset_import!(import_id)
 
-    %{collection_asset_import_id: import_id, page_number: 0, page_cursor: nil}
+    %{collection_asset_import_id: asset_import.id, page_number: 0, page_cursor: nil}
     |> Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage.new()
     |> Oban.insert()
   rescue
     e ->
-      "unhandled error retrieving collection assets error=~s, stacktrace=~s"
-      |> :io_lib.format([
-        e |> inspect,
-        __STACKTRACE__ |> inspect
-      ])
-      |> Logger.error()
+      "unhandled error pulling collection assets error=~s, stacktrace=~s"
+      |> format_log_error([inspect(e), inspect(__STACKTRACE__)])
   end
 
-  defp update_import_status(collection_asset_import, status) do
-    Baz.CollectionAssetImports.update_collection_asset_import(collection_asset_import, %{
-      status: status
-    })
+  defp format_log_error(format, data) do
+    format
+    |> :io_lib.format(data)
+    |> Logger.error()
   end
 end
