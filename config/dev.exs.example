@@ -20,14 +20,13 @@ config :baz, Oban,
   queues: [default: 10, backfills: 5]
 
 # Baz Core
-config :baz,
-  normalized_sinks: %{
-    collection_packs: [Baz.Sinks.Timescale],
-    collections: [Baz.Sinks.Timescale],
-    collection_traits: [Baz.Sinks.Timescale],
-    collection_assets: [Baz.Sinks.Timescale],
-    collection_asset_traits: [Baz.Sinks.Timescale],
-    collection_events: [Baz.Sinks.Timescale]
+config :baz, normalized_sinks: %{
+    collection_packs: [Baz.NormalizedSinks.Timescale],
+    collections: [Baz.NormalizedSinks.Timescale],
+    collection_traits: [Baz.NormalizedSinks.Timescale],
+    collection_assets: [Baz.NormalizedSinks.Timescale],
+    collection_asset_traits: [Baz.NormalizedSinks.Timescale],
+    collection_events: [Baz.NormalizedSinks.Timescale]
   }
 
 config :baz, venues: %{
