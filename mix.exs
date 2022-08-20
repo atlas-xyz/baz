@@ -58,7 +58,7 @@ defmodule Baz.MixProject do
     %{
       licenses: ["MIT"],
       maintainers: ["Alex Kwiatkowski"],
-      links: %{"GitHub" => "https://github.com/Tokenalysis/baz"}
+      links: %{"GitHub" => "https://github.com/atlas-xyz/baz"}
     }
   end
 
