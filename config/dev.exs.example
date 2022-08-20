@@ -31,25 +31,21 @@ config :baz,
   }
 
 config :baz, venues: %{
-  "open_sea" => {
-    Baz.Mock.VenueAdapter,
-    %{
-      collections: "*",
-      start_on_boot: false,
-      poll_stream_enabled: true,
-      websocket_stream_enabled: false,
-      credentials: %{},
-    }
+  "open_sea" => %{
+    adapter: Baz.Mock.VenueAdapter,
+    collections: "*",
+    start_on_boot: false,
+    poll_stream_enabled: true,
+    websocket_stream_enabled: false,
+    credentials: %{},
   },
-  "looks_rare" => {
-    Baz.Mock.VenueAdapter,
-    %{
-      collections: "*",
-      start_on_boot: false,
-      poll_stream_enabled: true,
-      websocket_stream_enabled: false,
-      credentials: %{},
-    }
+  "looks_rare" => %{
+    adapter: Baz.Mock.VenueAdapter,
+    collections: "*",
+    start_on_boot: false,
+    poll_stream_enabled: true,
+    websocket_stream_enabled: false,
+    credentials: %{},
   }
 }
 
