@@ -9,6 +9,7 @@ defmodule Baz.Application do
     children = [
       Baz.MemoryRepo,
       Baz.Repo,
+      Baz.RawSinks.RawSinkStore,
       Baz.NormalizedSinks.NormalizedSinkStore,
       {Oban, Application.fetch_env!(:baz, Oban)}
       # TODO: Allow this to be configured by apps using baz
@@ -28,9 +29,17 @@ defmodule Baz.Application do
   end
 
   @impl true
+  def start_phase(:raw_sinks, _start_type, _phase_args) do
+    {load_success, load_error} = Baz.RawSinks.load_config()
+    "loaded raw sinks: success=~w, error=~w" |> format_log_info([load_success, load_error])
+
+    :ok
+  end
+
+  @impl true
   def start_phase(:normalized_sinks, _start_type, _phase_args) do
     {load_success, load_error} = Baz.NormalizedSinks.load_config()
-    "loaded sinks: success=~w, error=~w" |> format_log_info([load_success, load_error])
+    "loaded normalied sinks: success=~w, error=~w" |> format_log_info([load_success, load_error])
 
     :ok
   end

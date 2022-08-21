@@ -59,6 +59,15 @@ if config_env() == :dev do
     collection_events: [Baz.NormalizedSinks.Timescale, Baz.NormalizedSinks.Logger]
   }
 
+  config :baz, raw_sinks: %{
+    collection_packs: [Baz.RawSinks.Logger],
+    collections: [Baz.RawSinks.Logger],
+    collection_traits: [Baz.RawSinks.Logger],
+    collection_assets: [Baz.RawSinks.Logger],
+    collection_asset_traits: [Baz.RawSinks.Logger],
+    collection_events: [Baz.RawSinks.Logger]
+  }
+
   config :baz,
     venues: %{
       "open_sea" => %{
