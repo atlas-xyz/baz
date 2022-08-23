@@ -11,6 +11,7 @@ defmodule Baz.Application do
       Baz.Repo,
       Baz.RawSinks.RawSinkStore,
       Baz.NormalizedSinks.NormalizedSinkStore,
+      Baz.Sinks.Supervisor,
       {Oban, Application.fetch_env!(:baz, Oban)}
       # TODO: Allow this to be configured by apps using baz
       # {Phoenix.PubSub, name: Baz.PubSub}

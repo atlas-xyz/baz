@@ -40,6 +40,7 @@ defmodule Baz.MixProject do
       {:ex_open_sea, "~> 0.0.6"},
       {:ex_magic_eden, "~> 0.0.4"},
       {:ex_x2y2, "~> 0.0.3"},
+      {:poolboy, "~> 1.5"},
       {:table_rex, "~> 3.1"},
       {:timex, "~> 3.7"},
       {:logger_file_backend, "~> 0.0.1", only: [:dev, :test]},
