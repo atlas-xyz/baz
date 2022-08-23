@@ -32,20 +32,11 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionEvents do
       timestamps()
     end
 
-    execute "SELECT create_hypertable('#{collection_events_table_name(table_and_index_prefix)}', 'event_timestamp');"
+    execute "SELECT create_hypertable('collection_events<%= if not is_nil(table_and_index_prefix), do: "_#{table_and_index_prefix}" %>', 'event_timestamp');"
   end
 
   def down do
     drop table(:collection_events<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>)
     execute("DROP TYPE event_type")
-  end
-
-  @collection_events_base_table_name "collection_events"
-  defp collection_events_table_name(table_and_index_prefix) do
-    if table_and_index_prefix == nil do
-      @collection_events_base_table_name
-    else
-      "#{table_and_index_prefix}_#{@collection_events_base_table_name}"
-    end
   end
 end
