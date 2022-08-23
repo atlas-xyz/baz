@@ -2,7 +2,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollections do
   use Ecto.Migration
 
   def change do
-    create table(:collections<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>) do
+    create table(:collections) do
       add :venue, :text, null: false
       add :slug, :text, null: false
       add :name, :text, null: false
@@ -13,6 +13,6 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollections do
       timestamps()
     end
 
-    create index(:collections, [:slug], unique: true<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>)
+    create index(:collections, [:slug], unique: true)
   end
 end

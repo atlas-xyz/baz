@@ -2,7 +2,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssets do
   use Ecto.Migration
 
   def change do
-    create table(:collection_assets<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>) do
+    create table(:collection_assets) do
       add :venue, :text, null: false
       add :slug, :text, null: false
       add :token_id, :integer, null: false
@@ -20,6 +20,6 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssets do
       timestamps()
     end
 
-    create index(:collection_assets, [:venue, :slug, :token_id], unique: true<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>)
+    create index(:collection_assets, [:venue, :slug, :token_id], unique: true)
   end
 end

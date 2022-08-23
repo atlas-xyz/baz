@@ -2,7 +2,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssetImportPages 
   use Ecto.Migration
 
   def change do
-    create table(:collection_asset_import_pages<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>) do
+    create table(:collection_asset_import_pages) do
       add :collection_asset_import_id, references(:collection_asset_imports), null: false
       add :page_number, :integer, null: false
       add :next_page_cursor, :text, null: true
@@ -10,6 +10,6 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssetImportPages 
       timestamps()
     end
 
-    create index(:collection_asset_import_pages, [:collection_asset_import_id, :page_number], unique: true<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>)
+    create index(:collection_asset_import_pages, [:collection_asset_import_id, :page_number], unique: true)
   end
 end

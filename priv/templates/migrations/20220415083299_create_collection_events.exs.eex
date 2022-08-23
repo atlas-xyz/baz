@@ -22,7 +22,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionEvents do
     """
     execute(create_query)
 
-    create table(:collection_events<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>, primary_key: false) do
+    create table(:collection_events, primary_key: false) do
       add :event_timestamp, :utc_datetime_usec, null: false
       add :event_type, :event_type, null: false
       add :venue, :text, null: false
@@ -38,7 +38,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionEvents do
   end
 
   def down do
-    drop table(:collection_events<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>)
+    drop table(:collection_events)
     execute("DROP TYPE event_type")
   end
 end

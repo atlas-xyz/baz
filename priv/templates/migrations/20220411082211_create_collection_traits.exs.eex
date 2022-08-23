@@ -2,7 +2,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionTraits do
   use Ecto.Migration
 
   def change do
-    create table(:collection_traits<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>) do
+    create table(:collection_traits) do
       add :collection_id, references(:collections), null: false
       add :trait_type, :text, null: false
       add :value, :text, null: false
