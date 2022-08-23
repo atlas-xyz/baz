@@ -8,24 +8,25 @@ configured_database_url = System.get_env("DATABASE_URL") || default_database_url
 database_url = "#{String.replace(configured_database_url, "?", env)}#{partition}"
 database_pool_size = String.to_integer(System.get_env("POOL_SIZE") || "10")
 schema_prefix = System.get_env("SCHEMA_PREFIX", nil)
-oban_schema_prefix = System.get_env("BAZ_OBAN_TABLE_PREFIX", "baz_private")
-
-#config :baz, table_and_index_prefix: "baz"
+oban_table_prefix = System.get_env("BAZ_OBAN_TABLE_PREFIX", nil)
 
 config :baz, Baz.Repo,
        url: database_url,
        pool_size: database_pool_size
 
 if schema_prefix != nil do
-  query_args = ["SET search_path TO #{schema_prefix}", []]
+  set_search_path_query_args = ["SET search_path TO #{schema_prefix}", []]
   config :baz, Baz.Repo,
     migration_default_prefix: "#{schema_prefix}",
-    after_connect: {Postgrex, :query!, query_args}
+    after_connect: {Postgrex, :query!, set_search_path_query_args}
 end
 
 # Oban Job Processing
+if oban_table_prefix != nil do
+  config :baz, Oban, prefix: oban_table_prefix
+end
+
 config :baz, Oban,
-  prefix: oban_schema_prefix,
   repo: Baz.Repo,
   plugins: [
     Oban.Plugins.Pruner

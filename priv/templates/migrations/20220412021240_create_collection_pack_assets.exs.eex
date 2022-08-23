@@ -2,13 +2,13 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionPackAssets do
   use Ecto.Migration
 
   def change do
-    create table(:collection_pack_assets<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>) do
+    create table(:collection_pack_assets) do
       add :collection_pack_id, references(:collection_packs), null: false
       add :token_id, :integer, null: false
 
       timestamps()
     end
 
-    create index(:collection_pack_assets, [:collection_pack_id, :token_id], unique: true<%= if not is_nil(table_and_index_prefix), do: ", prefix: \"#{table_and_index_prefix}\"" %>)
+    create index(:collection_pack_assets, [:collection_pack_id, :token_id], unique: true)
   end
 end

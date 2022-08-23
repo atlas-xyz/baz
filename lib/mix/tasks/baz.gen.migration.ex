@@ -31,7 +31,6 @@ defmodule Mix.Tasks.Baz.Gen.Migration do
         |> Enum.map(fn source_path ->
           EEx.eval_file(source_path,
             module_prefix: app_module,
-            table_and_index_prefix: Baz.Migrations.table_and_index_prefix(),
             migration_prefix: Baz.Migrations.migration_prefix(),
             oban_table_prefix: Baz.Migrations.oban_table_prefix()
           )
