@@ -32,7 +32,7 @@ defmodule Baz.Sinks.Worker do
       rescue
         e ->
           "could not execute raw sink, venue=~w, type=~w, input=~w, api_response=~w, reason=~s"
-          |> format_log_error([venue.name, type, input, api_response, inspect(e)])
+          |> format_log_error([venue.name, type, inspect(input), inspect(api_response), inspect(e)])
       end
     end)
 
