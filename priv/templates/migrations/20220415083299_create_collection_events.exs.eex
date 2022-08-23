@@ -32,7 +32,9 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionEvents do
       timestamps()
     end
 
-    execute "SELECT create_hypertable('collection_events<%= if not is_nil(table_and_index_prefix), do: "_#{table_and_index_prefix}" %>', 'event_timestamp');"
+    <%= if not is_nil(migration_prefix), do: "execute \"SET search_path to public;\""  %>
+    execute "SELECT create_hypertable('<%=if not is_nil(migration_prefix), do: "#{migration_prefix}."%>collection_events', 'event_timestamp');"
+    <%= if not is_nil(migration_prefix), do: "execute \"SET search_path to #{migration_prefix};\""  %>
   end
 
   def down do
