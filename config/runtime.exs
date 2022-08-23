@@ -3,7 +3,7 @@ import Config
 # Database
 env = config_env() |> Atom.to_string()
 partition = System.get_env("MIX_TEST_PARTITION")
-default_database_url = "ecto://postgres:postgres@localhost:5431/baz_?"
+default_database_url = "ecto://postgres:postgres@localhost:5432/baz_?"
 configured_database_url = System.get_env("DATABASE_URL") || default_database_url
 database_url = "#{String.replace(configured_database_url, "?", env)}#{partition}"
 database_pool_size = String.to_integer(System.get_env("POOL_SIZE") || "10")
