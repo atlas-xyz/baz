@@ -4,7 +4,7 @@ defmodule Baz.MixProject do
   def project do
     [
       app: :baz,
-      version: "0.0.10",
+      version: "0.0.11",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
