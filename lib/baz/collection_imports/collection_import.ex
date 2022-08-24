@@ -13,7 +13,7 @@ defmodule Baz.CollectionImports.CollectionImport do
     field :slug, :string
     field :status, :string
 
-    timestamps()
+    timestamps(type: :utc_datetime_usec)
   end
 
   @doc false

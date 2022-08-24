@@ -7,7 +7,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionEventImportPages 
       add :page_number, :integer, null: false
       add :next_page_cursor, :text, null: true
 
-      timestamps()
+      timestamps(type: :utc_datetime_usec)
     end
 
     create index(:collection_event_import_pages, [:collection_event_import_id, :page_number], unique: true)

@@ -8,7 +8,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssetImports do
       add :token_ids, {:array, :integer}, null: true
       add :status, :string, null: false
 
-      timestamps()
+      timestamps(type: :utc_datetime_usec)
     end
   end
 end

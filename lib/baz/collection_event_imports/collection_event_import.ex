@@ -19,7 +19,7 @@ defmodule Baz.CollectionEventImports.CollectionEventImport do
     field(:status, :string)
     has_many(:pages, CollectionEventImportPage)
 
-    timestamps()
+    timestamps(type: :utc_datetime_usec)
   end
 
   @doc false

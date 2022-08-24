@@ -14,7 +14,7 @@ defmodule Baz.CollectionEventImportPages.CollectionEventImportPage do
     field(:next_page_cursor, :string)
     belongs_to(:collection_event_import, CollectionEventImport)
 
-    timestamps()
+    timestamps(type: :utc_datetime_usec)
   end
 
   @doc false

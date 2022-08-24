@@ -11,7 +11,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionEventImports do
       add :event_types, {:array, :event_type}
       add :status, :string, null: false
 
-      timestamps()
+      timestamps(type: :utc_datetime_usec)
     end
   end
 end

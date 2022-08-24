@@ -17,7 +17,7 @@ defmodule Baz.CollectionAssetImports.CollectionAssetImport do
     field(:status, :string)
     has_many(:pages, CollectionAssetImportPage)
 
-    timestamps()
+    timestamps(type: :utc_datetime_usec)
   end
 
   @doc false

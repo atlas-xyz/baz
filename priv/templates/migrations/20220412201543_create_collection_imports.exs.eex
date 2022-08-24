@@ -7,7 +7,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionImports do
       add :slug, :text, null: false
       add :status, :string, null: false
 
-      timestamps()
+      timestamps(type: :utc_datetime_usec)
     end
   end
 end
