@@ -19,6 +19,9 @@ test.dialyzer:
 test.unit:
 	mix test
 
+release:
+	mix hex.publish
+
 start: start.db start.iex
 
 start.db:
