@@ -54,7 +54,7 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
   end
 
   defp fetch_and_upsert(input) do
-    case fetch_event_page(input.import, input.page_cursor) do
+    case fetch(input.import, input.page_cursor) do
       %Baz.Page{} = page ->
         multi = Ecto.Multi.new()
 
@@ -120,14 +120,18 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
     Baz.CollectionEventImports.update_collection_event_import(event_import, %{status: status})
   end
 
-  defp fetch_event_page(event_import, page_cursor) do
-    venue = Baz.Venues.get_venue!(event_import.venue)
+  defp fetch(event_import, page_cursor) do
+    try do
+      venue = Baz.Venues.get_venue!(event_import.venue)
 
-    Baz.VenueAdapter.fetch_collection_event_page_by_slug(
-      venue,
-      event_import.slug,
-      event_import.token_ids,
-      page_cursor
-    )
+      Baz.VenueAdapter.fetch_collection_event_page_by_slug(
+        venue,
+        event_import.slug,
+        event_import.token_ids,
+        page_cursor
+      )
+    rescue
+      reason -> {:error, reason}
+    end
   end
 end

@@ -35,11 +35,7 @@ defmodule Baz.CollectionImports.Jobs.PullCollection do
   end
 
   defp fetch_and_upsert(input) do
-    venue_name = input.import.venue
-    slug = input.import.slug
-    venue = Baz.Venues.get_venue!(venue_name)
-
-    case Baz.VenueAdapter.fetch_collection_by_slug(venue, slug) do
+    case fetch(input.import) do
       %Ecto.Changeset{} = changeset ->
         result = input.sinks |> Enum.map(fn s -> s.receive_collection_import(changeset) end)
         {input, {:ok, result}}
@@ -62,9 +58,16 @@ defmodule Baz.CollectionImports.Jobs.PullCollection do
     Baz.CollectionImports.update_collection_import(collection_import, %{status: status})
   end
 
-  defp format_log_error(format, data) do
-    format
-    |> :io_lib.format(data)
-    |> Logger.error()
+  defp fetch(collection_import) do
+    try do
+      venue = Baz.Venues.get_venue!(collection_import.venue)
+
+      Baz.VenueAdapter.fetch_collection_by_slug(
+        venue,
+        collection_import.slug
+      )
+    rescue
+      reason -> {:error, reason}
+    end
   end
 end

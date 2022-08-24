@@ -54,7 +54,7 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
   end
 
   defp fetch_and_upsert(input) do
-    case fetch_asset_page(input.import, input.page_cursor) do
+    case fetch(input.import, input.page_cursor) do
       %Baz.Page{} = page ->
         multi = Ecto.Multi.new()
 
@@ -120,14 +120,18 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
     Baz.CollectionAssetImports.update_collection_asset_import(asset_import, %{status: status})
   end
 
-  defp fetch_asset_page(asset_import, page_cursor) do
-    venue = Baz.Venues.get_venue!(asset_import.venue)
+  defp fetch(asset_import, page_cursor) do
+    try do
+      venue = Baz.Venues.get_venue!(asset_import.venue)
 
-    Baz.VenueAdapter.fetch_collection_asset_page_by_slug(
-      venue,
-      asset_import.slug,
-      asset_import.token_ids,
-      page_cursor
-    )
+      Baz.VenueAdapter.fetch_collection_asset_page_by_slug(
+        venue,
+        asset_import.slug,
+        asset_import.token_ids,
+        page_cursor
+      )
+    rescue
+      reason -> {:error, reason}
+    end
   end
 end
