@@ -4,7 +4,7 @@ defmodule Baz.CollectionImports.Jobs.PullCollection do
   """
 
   use Oban.Worker, queue: :imports
-  require Logger
+  import Baz.FormatLogger
 
   defmodule Input do
     defstruct ~w[import sinks]a
@@ -24,11 +24,12 @@ defmodule Baz.CollectionImports.Jobs.PullCollection do
     |> complete_import()
   rescue
     e ->
-      "unhandled error retrieving collection error=~s, stacktrace=~s"
-      |> format_log_error([inspect(e), inspect(__STACKTRACE__)])
+      "unhandled error pulling collection error=~s, stacktrace=~s"
+      |> log_error([inspect(e), inspect(__STACKTRACE__)])
   end
 
   defp start_import(input) do
+    "start execution of collection import id=~w" |> log_info([input.import.id])
     {:ok, collection_import} = update_import_status(input.import, "executing")
     %{input | import: collection_import}
   end
@@ -44,14 +45,15 @@ defmodule Baz.CollectionImports.Jobs.PullCollection do
         {input, {:ok, result}}
 
       {:error, reason} = error ->
-        "could not retrieve collection venue=~s, slug=~s, reason=~s"
-        |> format_log_error([venue_name, slug, inspect(reason)])
+        "could not fetch collection from venue=~s, slug=~s, reason=~s"
+        |> log_error([input.import.venue, input.import.slug, inspect(reason)])
 
         {input, error}
     end
   end
 
   defp complete_import({input, fetch_and_upsert_result}) do
+    "complete execution of collection import id=~w" |> log_info([input.import.id])
     {:ok, _collection_import} = update_import_status(input.import, "completed")
     fetch_and_upsert_result
   end

@@ -4,7 +4,7 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
   """
 
   use Oban.Worker, queue: :imports
-  require Logger
+  import Baz.FormatLogger
 
   defmodule Input do
     defstruct ~w[import sinks page_number page_cursor]a
@@ -34,11 +34,12 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
   rescue
     e ->
       "unhandled error pulling collection assets error=~s, stacktrace=~s"
-      |> format_log_error([inspect(e), inspect(__STACKTRACE__)])
+      |> log_error([inspect(e), inspect(__STACKTRACE__)])
   end
 
   defp ensure_import_started(input) do
     if input.page_number == 0 do
+      "start execution of collection assets import id=~w" |> log_info([input.import.id])
       {:ok, asset_import} = update_import_status(input.import, "executing")
       %{input | import: asset_import}
     else
@@ -74,8 +75,8 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
         {input, {:ok, result}, import_page}
 
       {:error, reason} = error ->
-        "could not retrieve collection assets venue=~s, slug=~s, token_ids: ~w, reason=~s"
-        |> format_log_error([
+        "could not fetch collection assets venue=~s, slug=~s, token_ids: ~w, reason=~s"
+        |> log_error([
           input.import.venue,
           input.import.slug,
           input.import.token_ids,
@@ -102,6 +103,7 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
 
   defp complete_import_on_last_page({input, fetch_and_upsert_result, import_page}) do
     unless import_page.next_page_cursor do
+      "complete execution of collection assets import id=~w" |> log_info([input.import.id])
       {:ok, _asset_import} = update_import_status(input.import, "completed")
     end
 
@@ -121,11 +123,5 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
       asset_import.token_ids,
       page_cursor
     )
-  end
-
-  defp format_log_error(format, data) do
-    format
-    |> :io_lib.format(data)
-    |> Logger.error()
   end
 end
