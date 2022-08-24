@@ -38,13 +38,19 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
   end
 
   defp ensure_import_started(input) do
-    if input.page_number == 0 do
-      "start execution of collection events import id=~w" |> log_info([input.import.id])
-      {:ok, event_import} = update_import_status(input.import, "executing")
-      %{input | import: event_import}
-    else
-      input
-    end
+    input =
+      if input.page_number == 0 do
+        "start execution of collection events import id=~w" |> log_info([input.import.id])
+        {:ok, event_import} = update_import_status(input.import, "executing")
+        %{input | import: event_import}
+      else
+        input
+      end
+
+    "pull collection events by page import id=~w, page_number=~w"
+    |> log_info([input.import.id, input.page_number])
+
+    input
   end
 
   defp fetch_and_upsert(input) do

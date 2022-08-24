@@ -38,13 +38,19 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
   end
 
   defp ensure_import_started(input) do
-    if input.page_number == 0 do
-      "start execution of collection assets import id=~w" |> log_info([input.import.id])
-      {:ok, asset_import} = update_import_status(input.import, "executing")
-      %{input | import: asset_import}
-    else
-      input
-    end
+    input =
+      if input.page_number == 0 do
+        "start execution of collection assets import id=~w" |> log_info([input.import.id])
+        {:ok, asset_import} = update_import_status(input.import, "executing")
+        %{input | import: asset_import}
+      else
+        input
+      end
+
+    "pull collection assets by page import id=~w, page_number=~w"
+    |> log_info([input.import.id, input.page_number])
+
+    input
   end
 
   defp fetch_and_upsert(input) do
