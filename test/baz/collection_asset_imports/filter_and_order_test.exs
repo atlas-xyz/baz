@@ -7,6 +7,7 @@ defmodule Baz.CollectionAssetImports.FilterAndOrderTest do
         venue: "open_sea",
         slug: "azuki",
         token_ids: [1],
+        max_retries: 3,
         status: "available"
       })
 
@@ -15,6 +16,7 @@ defmodule Baz.CollectionAssetImports.FilterAndOrderTest do
         venue: "x2y2",
         slug: "azuki",
         token_ids: [1],
+        max_retries: 3,
         status: "available"
       })
 
@@ -23,6 +25,7 @@ defmodule Baz.CollectionAssetImports.FilterAndOrderTest do
         venue: "open_sea",
         slug: "doodles-official",
         token_ids: [1],
+        max_retries: 3,
         status: "available"
       })
 
@@ -48,6 +51,7 @@ defmodule Baz.CollectionAssetImports.FilterAndOrderTest do
         venue: "open_sea",
         slug: "azuki",
         token_ids: [1],
+        max_retries: 3,
         status: "available"
       })
 
@@ -56,6 +60,7 @@ defmodule Baz.CollectionAssetImports.FilterAndOrderTest do
         venue: "x2y2",
         slug: "doodles-official",
         token_ids: [1],
+        max_retries: 3,
         status: "available"
       })
 

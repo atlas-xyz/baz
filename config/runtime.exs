@@ -44,6 +44,8 @@ config :baz, Oban,
   queues: [default: 10, imports: 5]
 
 # Baz Core
+config :baz, settings: %{}
+config :baz, raw_sinks: %{}
 config :baz, normalized_sinks: %{}
 config :baz, venues: %{}
 
@@ -62,6 +64,10 @@ end
 # Dev
 if config_env() == :dev do
   config :baz, Baz.Repo, show_sensitive_data_on_connection_error: true
+
+  config :baz, settings: %{
+    max_job_retries: 5
+  }
 
   config :baz, normalized_sinks: %{
     collection_packs: [Baz.NormalizedSinks.Timescale, Baz.NormalizedSinks.Logger],

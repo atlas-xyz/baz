@@ -10,6 +10,7 @@ defmodule Baz.IEx.Commands.CollectionEventImportsTest do
       event_types: ["item_listed", "item_sold"],
       before: ~U[2022-01-20 12:00:05.123456Z],
       after: ~U[2022-01-01 12:00:05.123456Z],
+      max_retries: 3,
       status: "active"
     })
 

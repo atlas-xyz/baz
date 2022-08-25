@@ -9,6 +9,7 @@ defmodule Baz.Application do
     children = [
       Baz.MemoryRepo,
       Baz.Repo,
+      Baz.Settings.SettingsStore,
       Baz.RawSinks.RawSinkStore,
       Baz.NormalizedSinks.NormalizedSinkStore,
       Baz.Sinks.Supervisor,
@@ -22,9 +23,9 @@ defmodule Baz.Application do
   end
 
   @impl true
-  def start_phase(:venues, _start_type, _phase_args) do
-    {load_success, load_error} = Baz.Venues.load_config()
-    "loaded venues: success=~w, error=~w" |> format_log_info([load_success, load_error])
+  def start_phase(:settings, _start_type, _phase_args) do
+    {load_success, load_error} = Baz.Settings.load_config()
+    "loaded settings: success=~w, error=~w" |> format_log_info([load_success, load_error])
 
     :ok
   end
@@ -41,6 +42,14 @@ defmodule Baz.Application do
   def start_phase(:normalized_sinks, _start_type, _phase_args) do
     {load_success, load_error} = Baz.NormalizedSinks.load_config()
     "loaded normalied sinks: success=~w, error=~w" |> format_log_info([load_success, load_error])
+
+    :ok
+  end
+
+  @impl true
+  def start_phase(:venues, _start_type, _phase_args) do
+    {load_success, load_error} = Baz.Venues.load_config()
+    "loaded venues: success=~w, error=~w" |> format_log_info([load_success, load_error])
 
     :ok
   end

@@ -6,6 +6,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssetImports do
       add :venue, :text, null: false
       add :slug, :text, null: false
       add :token_ids, {:array, :integer}, null: true
+      add :max_retries, :integer, null: false
       add :status, :string, null: false
 
       timestamps(type: :utc_datetime_usec)

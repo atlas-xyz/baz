@@ -8,12 +8,6 @@ defmodule Baz.IEx do
   @spec help :: no_return
   defdelegate help, to: Commands.Help
 
-  @spec normalized_sinks() :: no_return
-  defdelegate normalized_sinks(options \\ []), to: Commands.NormalizedSinks, as: :filter_and_order
-
-  @spec raw_sinks() :: no_return
-  defdelegate raw_sinks(options \\ []), to: Commands.RawSinks, as: :filter_and_order
-
   @spec collection_packs() :: no_return
   @spec collection_packs(Commands.CollectionPacks.opts()) :: no_return
   defdelegate collection_packs(options \\ []), to: Commands.CollectionPacks, as: :filter_and_order
@@ -31,6 +25,15 @@ defmodule Baz.IEx do
   @spec venues() :: no_return
   @spec venues(Commands.Venues.opts()) :: no_return
   defdelegate venues(options \\ []), to: Commands.Venues, as: :filter_and_order
+
+  @spec settings() :: no_return
+  defdelegate settings(), to: Commands.Settings, as: :list
+
+  @spec raw_sinks() :: no_return
+  defdelegate raw_sinks(options \\ []), to: Commands.RawSinks, as: :filter_and_order
+
+  @spec normalized_sinks() :: no_return
+  defdelegate normalized_sinks(options \\ []), to: Commands.NormalizedSinks, as: :filter_and_order
 
   @spec collection_imports() :: no_return
   @spec collection_imports(Commands.CollectionImports.opts()) :: no_return

@@ -89,6 +89,10 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
           reason |> inspect
         ])
 
+        # TODO: how should this match import_page above?
+        # - should retry
+        # - only really needs the next cursor or current cursor
+        # - page number can come from itself
         {input, error}
     end
   end

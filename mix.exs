@@ -22,7 +22,7 @@ defmodule Baz.MixProject do
   def application do
     [
       mod: {Baz.Application, []},
-      start_phases: [venues: [], raw_sinks: [], normalized_sinks: []],
+      start_phases: [settings: [], raw_sinks: [], normalized_sinks: [], venues: []],
       extra_applications: [:logger]
     ]
   end

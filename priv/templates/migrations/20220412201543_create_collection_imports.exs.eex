@@ -5,6 +5,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionImports do
     create table(:collection_imports) do
       add :venue, :text, null: false
       add :slug, :text, null: false
+      add :max_retries, :integer, null: false
       add :status, :string, null: false
 
       timestamps(type: :utc_datetime_usec)

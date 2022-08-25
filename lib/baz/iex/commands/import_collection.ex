@@ -7,11 +7,17 @@ defmodule Baz.IEx.Commands.ImportCollection do
 
   @spec create(opts) :: no_return
   def create(opts) do
-    venue = Keyword.fetch!(opts, :venue)
-    slug = Keyword.fetch!(opts, :slug)
-    attrs = %{"venue" => venue, "slug" => slug}
+    attrs = build_attrs(opts)
     {:ok, _} = Baz.CollectionImports.create_collection_import(attrs)
 
     IEx.dont_display_result()
+  end
+
+  defp build_attrs(opts) do
+    venue = Keyword.fetch!(opts, :venue)
+    slug = Keyword.fetch!(opts, :slug)
+    {:ok, max_job_retries} = Baz.Settings.get(:max_job_retries)
+
+    %{"venue" => venue, "slug" => slug, "max_retries" => max_job_retries}
   end
 end

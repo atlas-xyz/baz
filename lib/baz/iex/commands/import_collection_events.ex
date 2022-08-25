@@ -16,7 +16,8 @@ defmodule Baz.IEx.Commands.ImportCollectionEvents do
   defp build_attrs(opts) do
     venue = Keyword.fetch!(opts, :venue)
     slug = Keyword.fetch!(opts, :slug)
+    {:ok, max_job_retries} = Baz.Settings.get(:max_job_retries)
 
-    %{"venue" => venue, "slug" => slug}
+    %{"venue" => venue, "slug" => slug, "max_retries" => max_job_retries}
   end
 end

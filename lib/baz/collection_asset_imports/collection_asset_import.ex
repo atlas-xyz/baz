@@ -14,6 +14,7 @@ defmodule Baz.CollectionAssetImports.CollectionAssetImport do
     field(:venue, :string)
     field(:slug, :string)
     field(:token_ids, Baz.EctoTypes.Integers)
+    field :max_retries, :integer
     field(:status, :string)
     has_many(:pages, CollectionAssetImportPage)
 
@@ -23,7 +24,7 @@ defmodule Baz.CollectionAssetImports.CollectionAssetImport do
   @doc false
   def changeset(collection_asset_import, attrs) do
     collection_asset_import
-    |> cast(attrs, [:venue, :slug, :token_ids, :status])
-    |> validate_required([:venue, :slug, :status])
+    |> cast(attrs, [:venue, :slug, :token_ids, :max_retries, :status])
+    |> validate_required([:venue, :slug, :max_retries, :status])
   end
 end

@@ -12,7 +12,8 @@ defmodule Baz.CollectionEventImports.FilterAndOrderTest do
         event_type: "item_listed",
         after: DateTime.utc_now() |> DateTime.add(-@after_seconds, :second),
         before: DateTime.utc_now(),
-        status: "available"
+        status: "available",
+        max_retries: 3
       })
 
     {:ok, x2y2_azuki_1} =
@@ -23,7 +24,8 @@ defmodule Baz.CollectionEventImports.FilterAndOrderTest do
         event_type: "item_listed",
         after: DateTime.utc_now() |> DateTime.add(-@after_seconds, :second),
         before: DateTime.utc_now(),
-        status: "available"
+        status: "available",
+        max_retries: 3
       })
 
     {:ok, open_sea_doodles_1} =
@@ -34,7 +36,8 @@ defmodule Baz.CollectionEventImports.FilterAndOrderTest do
         event_type: "item_listed",
         after: DateTime.utc_now() |> DateTime.add(-@after_seconds, :second),
         before: DateTime.utc_now(),
-        status: "available"
+        status: "available",
+        max_retries: 3
       })
 
     open_sea_event_imports =

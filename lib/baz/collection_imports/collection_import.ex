@@ -11,6 +11,7 @@ defmodule Baz.CollectionImports.CollectionImport do
   schema "collection_imports" do
     field :venue, :string
     field :slug, :string
+    field :max_retries, :integer
     field :status, :string
 
     timestamps(type: :utc_datetime_usec)
@@ -19,7 +20,7 @@ defmodule Baz.CollectionImports.CollectionImport do
   @doc false
   def changeset(collection, attrs) do
     collection
-    |> cast(attrs, [:venue, :slug, :status])
-    |> validate_required([:venue, :slug, :status])
+    |> cast(attrs, [:venue, :slug, :max_retries, :status])
+    |> validate_required([:venue, :slug, :max_retries, :status])
   end
 end

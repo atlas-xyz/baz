@@ -9,6 +9,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionEventImports do
       add :after, :utc_datetime_usec, null: false
       add :token_ids, {:array, :integer}
       add :event_types, {:array, :event_type}
+      add :max_retries, :integer, null: false
       add :status, :string, null: false
 
       timestamps(type: :utc_datetime_usec)

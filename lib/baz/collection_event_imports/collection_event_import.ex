@@ -16,6 +16,7 @@ defmodule Baz.CollectionEventImports.CollectionEventImport do
     field(:after, :utc_datetime_usec)
     field(:token_ids, Baz.EctoTypes.Integers)
     field(:event_types, {:array, :string})
+    field :max_retries, :integer
     field(:status, :string)
     has_many(:pages, CollectionEventImportPage)
 
@@ -32,6 +33,7 @@ defmodule Baz.CollectionEventImports.CollectionEventImport do
       :after,
       :token_ids,
       :event_types,
+      :max_retries,
       :status
     ])
     |> validate_required([
@@ -39,6 +41,7 @@ defmodule Baz.CollectionEventImports.CollectionEventImport do
       :slug,
       :before,
       :after,
+      :max_retries,
       :status
     ])
   end

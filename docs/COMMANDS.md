@@ -10,55 +10,20 @@ Display the available commands and usage examples
 
 ```elixir
 iex(1)> help
-* raw_sinks
-* normalized_sinks
 * collection_packs [where: [...], order: [...]]
 * collections [where: [...], order: [...]]
 * collection_assets [where: [...], order: [...]]
 * collection_events [where: [...], order: [...]]
 * venues [where: [...], order: [...]]
+* settings
+* raw_sinks
+* normalized_sinks
 * collection_imports [where: [...], order: [...]]
 * collection_asset_imports [where: [...], order: [...]]
 * collection_event_imports [where: [...], order: [...]]
 * import_collection venue: ":name", slug: ":slug"
 * import_collection_assets venue: ":name", slug: ":slug", token_ids: [...]
 * import_collection_events venue: ":name", slug: ":slug", token_ids: [...], type: ..., before: ..., after: ...
-```
-
-## raw_sinks
-
-List raw sinks for each resource
-
-```elixir
-iex(1)> raw_sinks
-+-------------------------+----------------------------+
-| Resource                | Sinks                      |
-+-------------------------+----------------------------+
-| collection_packs        | Elixir.Baz.RawSinks.Logger |
-| collections             | Elixir.Baz.RawSinks.Logger |
-| collection_traits       | Elixir.Baz.RawSinks.Logger |
-| collection_assets       | Elixir.Baz.RawSinks.Logger |
-| collection_asset_traits | Elixir.Baz.RawSinks.Logger |
-| collection_events       | Elixir.Baz.RawSinks.Logger |
-+-------------------------+----------------------------+
-```
-
-## normalized_sinks
-
-List normalized sinks for each resource
-
-```elixir
-iex(1)> normalized_sinks
-+-------------------------+--------------------------------------+
-| Resource                | Sinks                                |
-+-------------------------+--------------------------------------+
-| collection_packs        | Elixir.Baz.NormalizedSinks.Timescale |
-| collections             | Elixir.Baz.NormalizedSinks.Timescale |
-| collection_traits       | Elixir.Baz.NormalizedSinks.Timescale |
-| collection_assets       | Elixir.Baz.NormalizedSinks.Timescale |
-| collection_asset_traits | Elixir.Baz.NormalizedSinks.Timescale |
-| collection_events       | Elixir.Baz.NormalizedSinks.Timescale |
-+-------------------------+--------------------------------------+
 ```
 
 ## collection_packs
@@ -125,6 +90,55 @@ iex(1)> venues
 | open_sea   | *           |             | true                | false                    | false         |
 | looks_rare | *           |             | true                | false                    | false         |
 +------------+-------------+-------------+---------------------+--------------------------+---------------+
+```
+
+## settings
+
+List settings
+
+```elixir
+iex(1)> settings
++-----------------+-------+
+| Name            | Value |
++-----------------+-------+
+| max_job_retries | 3     |
++-----------------+-------+
+```
+
+## raw_sinks
+
+List raw sinks for each resource
+
+```elixir
+iex(1)> raw_sinks
++-------------------------+----------------------------+
+| Resource                | Sinks                      |
++-------------------------+----------------------------+
+| collection_packs        | Elixir.Baz.RawSinks.Logger |
+| collections             | Elixir.Baz.RawSinks.Logger |
+| collection_traits       | Elixir.Baz.RawSinks.Logger |
+| collection_assets       | Elixir.Baz.RawSinks.Logger |
+| collection_asset_traits | Elixir.Baz.RawSinks.Logger |
+| collection_events       | Elixir.Baz.RawSinks.Logger |
++-------------------------+----------------------------+
+```
+
+## normalized_sinks
+
+List normalized sinks for each resource
+
+```elixir
+iex(1)> normalized_sinks
++-------------------------+--------------------------------------+
+| Resource                | Sinks                                |
++-------------------------+--------------------------------------+
+| collection_packs        | Elixir.Baz.NormalizedSinks.Timescale |
+| collections             | Elixir.Baz.NormalizedSinks.Timescale |
+| collection_traits       | Elixir.Baz.NormalizedSinks.Timescale |
+| collection_assets       | Elixir.Baz.NormalizedSinks.Timescale |
+| collection_asset_traits | Elixir.Baz.NormalizedSinks.Timescale |
+| collection_events       | Elixir.Baz.NormalizedSinks.Timescale |
++-------------------------+--------------------------------------+
 ```
 
 ## collection_imports

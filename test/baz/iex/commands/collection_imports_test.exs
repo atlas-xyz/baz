@@ -8,6 +8,7 @@ defmodule Baz.IEx.Commands.CollectionImportsTest do
       slug: "azuki",
       token_id: 1,
       name: "Azuki #1",
+      max_retries: 3,
       status: "available",
       last_updated_at: ~U[2020-05-18 21:25:06.098765Z]
     })
@@ -17,6 +18,7 @@ defmodule Baz.IEx.Commands.CollectionImportsTest do
       slug: "doodles-official",
       token_id: 20,
       name: "Doodles #20",
+      max_retries: 3,
       status: "completed",
       last_updated_at: ~U[2019-05-18 21:25:06.098765Z]
     })
