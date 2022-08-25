@@ -2,7 +2,7 @@ defmodule Baz.Settings.Services.LoadConfig do
   alias Baz.Settings
 
   @settings [
-    [name: :max_job_retries, default: 3]
+    [name: :max_job_retries, default: 5]
   ]
   @initial_load_result {0, 0}
 

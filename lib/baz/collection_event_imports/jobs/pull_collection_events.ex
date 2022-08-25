@@ -15,7 +15,12 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEvents do
   def perform(%Oban.Job{args: %{"collection_event_import_id" => import_id}}) do
     event_import = Baz.CollectionEventImports.get_collection_event_import!(import_id)
 
-    %{collection_event_import_id: event_import.id, page_number: 0, page_cursor: nil}
+    %{
+      collection_event_import_id: event_import.id,
+      retries: 0,
+      page_number: 0,
+      page_cursor: nil
+    }
     |> Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage.new()
     |> Oban.insert()
   rescue

@@ -14,6 +14,7 @@ defmodule Baz.IEx.Commands.CollectionEventImports do
     "After",
     "Token IDs",
     "Types",
+    "Max Retries",
     "Status"
   ]
 
@@ -35,6 +36,7 @@ defmodule Baz.IEx.Commands.CollectionEventImports do
         i.after |> DateTime.to_string(),
         i.token_ids,
         i.event_types,
+        i.max_retries,
         i.status
       ]
       |> Enum.map(&format_col/1)

@@ -7,13 +7,14 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
   import Baz.FormatLogger
 
   defmodule Input do
-    defstruct ~w[import sinks page_number page_cursor]a
+    defstruct ~w[import retries sinks page_number page_cursor]a
   end
 
   @impl Oban.Worker
   def perform(%Oban.Job{
         args: %{
           "collection_event_import_id" => import_id,
+          "retries" => retries,
           "page_number" => page_number,
           "page_cursor" => page_cursor
         }
@@ -23,6 +24,7 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
 
     %Input{
       import: event_import,
+      retries: retries,
       sinks: event_sinks,
       page_number: page_number,
       page_cursor: page_cursor
@@ -93,26 +95,48 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
         # - should retry
         # - only really needs the next cursor or current cursor
         # - page number can come from itself
-        {input, error}
+        {input, error, nil}
     end
   end
 
-  defp enqueue_next_page({input, _fetch_and_upsert_result, import_page} = step_input) do
-    if import_page.next_page_cursor != nil do
-      %{
-        collection_event_import_id: input.import.id,
-        page_number: import_page.page_number + 1,
-        page_cursor: import_page.next_page_cursor
-      }
-      |> Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage.new()
-      |> Oban.insert()
-    end
+  defp enqueue_next_page({input, fetch_and_upsert_result, import_page} = step_input) do
+    case fetch_and_upsert_result do
+      {:ok, _result} ->
+        if import_page.next_page_cursor != nil do
+          %{
+            collection_event_import_id: input.import.id,
+            retries: 0,
+            page_number: import_page.page_number + 1,
+            page_cursor: import_page.next_page_cursor
+          }
+          |> Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage.new()
+          |> Oban.insert()
+        end
 
-    step_input
+        step_input
+
+      {:error, _reason} ->
+        if input.retries < input.import.max_retries do
+          retry_attempt = input.retries + 1
+          schedule_in = Integer.pow(retry_attempt, 2)
+
+          %{
+            collection_event_import_id: input.import.id,
+            retries: retry_attempt,
+            schedule_in: schedule_in,
+            page_number: input.page_number,
+            page_cursor: input.page_cursor
+          }
+          |> Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage.new()
+          |> Oban.insert()
+        end
+
+        step_input
+    end
   end
 
   defp complete_import_on_last_page({input, fetch_and_upsert_result, import_page}) do
-    unless import_page.next_page_cursor do
+    if import_page && import_page.next_page_cursor == nil do
       "complete execution of collection events import id=~w" |> log_info([input.import.id])
       {:ok, _event_import} = update_import_status(input.import, "completed")
     end
