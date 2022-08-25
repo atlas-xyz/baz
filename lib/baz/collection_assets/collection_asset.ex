@@ -60,6 +60,6 @@ defmodule Baz.CollectionAssets.CollectionAsset do
       :animation_original_uri,
       :is_nsfw
     ])
-    |> validate_required([:venue, :slug, :token_id, :name])
+    |> validate_required([:venue, :slug, :token_id])
   end
 end

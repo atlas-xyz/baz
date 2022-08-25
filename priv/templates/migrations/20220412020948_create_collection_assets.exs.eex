@@ -6,7 +6,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssets do
       add :venue, :text, null: false
       add :slug, :text, null: false
       add :token_id, :integer, null: false
-      add :name, :text, null: false
+      add :name, :text
       add :description, :text
       add :background_color, :text
       add :image_uri, :text
