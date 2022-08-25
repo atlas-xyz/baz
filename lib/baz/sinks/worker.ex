@@ -31,8 +31,8 @@ defmodule Baz.Sinks.Worker do
         apply(s, :receive_raw, [type, input, api_response])
       rescue
         e ->
-          "could not execute raw sink, venue=~w, type=~w, input=~w, api_response=~w, reason=~s"
-          |> format_log_error([venue.name, type, inspect(input), inspect(api_response), inspect(e)])
+          "could not execute raw sink, venue=~s, type=~w, reason=~s, input=~s, api_response=~s"
+          |> format_log_error([venue.name, type, inspect(e), inspect(input), inspect(api_response)])
       end
     end)
 
