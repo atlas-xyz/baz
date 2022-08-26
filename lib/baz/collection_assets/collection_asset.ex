@@ -9,19 +9,19 @@ defmodule Baz.CollectionAssets.CollectionAsset do
   @type t :: Ecto.Schema.t()
 
   schema "collection_assets" do
-    field :venue, :string
-    field :slug, :string
-    field :token_id, :string
-    field :name, :string
-    field :description, :string
-    field :background_color, :string
-    field :image_uri, :string
-    field :image_preview_uri, :string
-    field :image_thumbnail_uri, :string
-    field :image_original_uri, :string
-    field :animation_uri, :string
-    field :animation_original_uri, :string
-    field :is_nsfw, :boolean
+    field(:venue, :string)
+    field(:slug, :string)
+    field(:token_id, :string)
+    field(:name, :string)
+    field(:description, :string)
+    field(:background_color, :string)
+    field(:image_uri, :string)
+    field(:image_preview_uri, :string)
+    field(:image_thumbnail_uri, :string)
+    field(:image_original_uri, :string)
+    field(:animation_uri, :string)
+    field(:animation_original_uri, :string)
+    field(:is_nsfw, :boolean)
     # Interesting extra information from OS API
     # permalink: String.t(),
     # external_link: String.t(),
@@ -61,5 +61,6 @@ defmodule Baz.CollectionAssets.CollectionAsset do
       :is_nsfw
     ])
     |> validate_required([:venue, :slug, :token_id])
+    |> unique_constraint([:venue, :slug, :token_id])
   end
 end
