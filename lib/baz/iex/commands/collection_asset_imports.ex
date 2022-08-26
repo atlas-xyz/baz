@@ -12,6 +12,7 @@ defmodule Baz.IEx.Commands.CollectionAssetImports do
     "Venue",
     "Slug",
     "Token IDs",
+    "Max Retries",
     "Status",
     "Last Updated"
   ]
@@ -32,6 +33,7 @@ defmodule Baz.IEx.Commands.CollectionAssetImports do
         b.venue,
         b.slug,
         b.token_ids,
+        b.max_retries,
         b.status,
         b.updated_at
       ]

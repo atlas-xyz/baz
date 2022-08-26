@@ -14,7 +14,12 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssets do
   def perform(%Oban.Job{args: %{"collection_asset_import_id" => import_id}}) do
     asset_import = Baz.CollectionAssetImports.get_collection_asset_import!(import_id)
 
-    %{collection_asset_import_id: asset_import.id, page_number: 0, page_cursor: nil}
+    %{
+      collection_asset_import_id: asset_import.id,
+      retries: 0,
+      page_number: 0,
+      page_cursor: nil
+    }
     |> Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage.new()
     |> Oban.insert()
   rescue

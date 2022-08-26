@@ -7,13 +7,14 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
   import Baz.FormatLogger
 
   defmodule Input do
-    defstruct ~w[import sinks page_number page_cursor]a
+    defstruct ~w[import retries sinks page_number page_cursor]a
   end
 
   @impl Oban.Worker
   def perform(%Oban.Job{
         args: %{
           "collection_asset_import_id" => import_id,
+          "retries" => retries,
           "page_number" => page_number,
           "page_cursor" => page_cursor
         }
@@ -21,16 +22,30 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
     asset_import = Baz.CollectionAssetImports.get_collection_asset_import!(import_id)
     asset_sinks = Baz.NormalizedSinks.get_collection_asset_normalized_sinks()
 
-    %Input{
-      import: asset_import,
-      sinks: asset_sinks,
-      page_number: page_number,
-      page_cursor: page_cursor
-    }
-    |> ensure_import_started()
-    |> fetch_and_upsert()
-    |> enqueue_next_page()
-    |> complete_import_on_last_page()
+    try do
+      %Input{
+        import: asset_import,
+        retries: retries,
+        sinks: asset_sinks,
+        page_number: page_number,
+        page_cursor: page_cursor
+      }
+      |> ensure_import_started()
+      |> fetch_and_upsert()
+      |> enqueue_next_page()
+      |> complete_import_on_last_page()
+    rescue
+      e ->
+        "unhandled error pulling collection assets by page venue=~s, slug=~s, token_ids=~w, import_id=~w, error=~s, stacktrace=~s"
+        |> log_error([
+          asset_import.venue,
+          asset_import.slug,
+          asset_import.token_ids,
+          asset_import.id,
+          inspect(e),
+          inspect(__STACKTRACE__)
+        ])
+    end
   rescue
     e ->
       "unhandled error pulling collection assets error=~s, stacktrace=~s"
@@ -47,8 +62,14 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
         input
       end
 
-    "pull collection assets by page import id=~w, page_number=~w"
-    |> log_info([input.import.id, input.page_number])
+    "pull collection assets by page=~w, venue=~s, slug=~s, token_ids=~w, import_id=~w"
+    |> log_info([
+      input.page_number,
+      input.import.venue,
+      input.import.slug,
+      input.import.token_ids,
+      input.import.id
+    ])
 
     input
   end
@@ -81,38 +102,79 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
         {input, {:ok, result}, import_page}
 
       {:error, reason} = error ->
-        "could not fetch collection assets venue=~s, slug=~s, token_ids: ~w, reason=~s"
+        "could not pull collection assets for page=~w, venue=~s, slug=~s, token_ids=~w, import_id=~w, reason=~s"
         |> log_error([
+          input.page_number,
           input.import.venue,
           input.import.slug,
           input.import.token_ids,
+          input.import.id,
           reason |> inspect
         ])
 
-        # TODO: how should this match import_page above?
-        # - should retry
-        # - only really needs the next cursor or current cursor
-        # - page number can come from itself
-        {input, error}
+        {input, error, nil}
     end
   end
 
-  defp enqueue_next_page({input, _fetch_and_upsert_result, import_page} = step_input) do
-    if import_page.next_page_cursor != nil do
-      %{
-        collection_asset_import_id: input.import.id,
-        page_number: import_page.page_number + 1,
-        page_cursor: import_page.next_page_cursor
-      }
-      |> Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage.new()
-      |> Oban.insert()
+  defp enqueue_next_page({input, fetch_and_upsert_result, import_page} = state) do
+    case fetch_and_upsert_result do
+      {:ok, _result} ->
+        if import_page.next_page_cursor != nil do
+          %{
+            collection_asset_import_id: input.import.id,
+            retries: 0,
+            page_number: import_page.page_number + 1,
+            page_cursor: import_page.next_page_cursor
+          }
+          |> Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage.new()
+          |> Oban.insert()
+        end
+
+      {:error, _reason} ->
+        if input.retries < input.import.max_retries do
+          retry_attempt = input.retries + 1
+          schedule_in = Integer.pow(retry_attempt, 2)
+
+          "retry ~w/~w pull collection assets by page=~w in ~w seconds venue=~s, slug=~s, token_ids=~w, import_id=~w"
+          |> log_warn([
+            retry_attempt,
+            input.import.max_retries,
+            input.page_number,
+            schedule_in,
+            input.import.venue,
+            input.import.slug,
+            input.import.token_ids,
+            input.import.id
+          ])
+
+          %{
+            collection_asset_import_id: input.import.id,
+            retries: retry_attempt,
+            schedule_in: schedule_in,
+            page_number: input.page_number,
+            page_cursor: input.page_cursor
+          }
+          |> Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage.new()
+          |> Oban.insert()
+        else
+          "max retry attempts ~w/~w reached pulling collection assets by page=~w, venue=~s, slug=~s, token_ids=~w, import_id=~w"
+          |> log_error([
+            input.retries,
+            input.import.max_retries,
+            input.page_number,
+            input.import.venue,
+            input.import.slug,
+            input.import.token_ids,
+            input.import.id
+          ])
+        end
     end
 
-    step_input
+    state
   end
 
   defp complete_import_on_last_page({input, fetch_and_upsert_result, import_page}) do
-    unless import_page.next_page_cursor do
+    if import_page && import_page.next_page_cursor == nil do
       "complete execution of collection assets import id=~w" |> log_info([input.import.id])
       {:ok, _asset_import} = update_import_status(input.import, "completed")
     end

@@ -25,22 +25,25 @@ defmodule Baz.IEx.Commands.CollectionAssetImportsTest do
 
     output = capture_io(&Baz.IEx.collection_asset_imports/0)
 
-    assert String.match?(output, ~r/\d+\s+\| open_sea \| azuki\s+\| 1, 2\s+\| available \|/) ==
+    assert String.match?(
+             output,
+             ~r/\d+\s+\| open_sea \| azuki\s+\| 1, 2\s+\| 3\s+\| available \|/
+           ) ==
              true
 
     assert String.match?(
              output,
-             ~r/\d+\s+\| open_sea \| doodles-official\s+\| 20, 21\s+\| completed \|/
+             ~r/\d+\s+\| open_sea \| doodles-official\s+\| 20, 21\s+\| 3\s+\| completed \|/
            ) == true
   end
 
   test "shows an empty table when there are no collection asset imports" do
     assert capture_io(&Baz.IEx.collection_asset_imports/0) == """
-           +----+-------+------+-----------+--------+--------------+
-           | ID | Venue | Slug | Token IDs | Status | Last Updated |
-           +----+-------+------+-----------+--------+--------------+
-           | -  | -     | -    | -         | -      | -            |
-           +----+-------+------+-----------+--------+--------------+\n
+           +----+-------+------+-----------+-------------+--------+--------------+
+           | ID | Venue | Slug | Token IDs | Max Retries | Status | Last Updated |
+           +----+-------+------+-----------+-------------+--------+--------------+
+           | -  | -     | -    | -         | -           | -      | -            |
+           +----+-------+------+-----------+-------------+--------+--------------+\n
            """
   end
 end
