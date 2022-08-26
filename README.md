@@ -33,7 +33,7 @@ Add the `baz` package to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:baz, "~> 0.0.11"}
+    {:baz, "~> 0.0.12"}
   ]
 end
 ```
