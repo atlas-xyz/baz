@@ -23,5 +23,6 @@ defmodule Baz.CollectionEventImportPages.CollectionEventImportPage do
     |> cast(attrs, [:page_number, :next_page_cursor])
     |> cast_assoc(:collection_event_import)
     |> validate_required([:page_number, :collection_event_import])
+    |> unique_constraint([:collection_event_import, :page_number])
   end
 end

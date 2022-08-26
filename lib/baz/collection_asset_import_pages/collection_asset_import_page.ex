@@ -23,5 +23,6 @@ defmodule Baz.CollectionAssetImportPages.CollectionAssetImportPage do
     |> cast(attrs, [:page_number, :next_page_cursor])
     |> cast_assoc(:collection_asset_import)
     |> validate_required([:page_number, :collection_asset_import])
+    |> unique_constraint([:collection_asset_import, :page_number])
   end
 end
