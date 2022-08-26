@@ -22,20 +22,33 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
     event_import = Baz.CollectionEventImports.get_collection_event_import!(import_id)
     event_sinks = Baz.NormalizedSinks.get_collection_event_normalized_sinks()
 
-    %Input{
-      import: event_import,
-      retries: retries,
-      sinks: event_sinks,
-      page_number: page_number,
-      page_cursor: page_cursor
-    }
-    |> ensure_import_started()
-    |> fetch_and_upsert()
-    |> enqueue_next_page()
-    |> complete_import_on_last_page()
+    try do
+      %Input{
+        import: event_import,
+        retries: retries,
+        sinks: event_sinks,
+        page_number: page_number,
+        page_cursor: page_cursor
+      }
+      |> ensure_import_started()
+      |> fetch_and_upsert()
+      |> enqueue_next_page()
+      |> complete_import_on_last_page()
+    rescue
+      e ->
+        "unhandled error pulling collection events by page venue=~s, slug=~s, token_ids=~w, import_id=~w, error=~s, stacktrace=~s"
+        |> log_error([
+          event_import.venue,
+          event_import.slug,
+          event_import.token_ids,
+          event_import.id,
+          inspect(e),
+          inspect(__STACKTRACE__)
+        ])
+    end
   rescue
     e ->
-      "unhandled error pulling collection events error=~s, stacktrace=~s"
+      "unhandled error pulling collection events by page error=~s, stacktrace=~s"
       |> log_error([inspect(e), inspect(__STACKTRACE__)])
   end
 
@@ -49,8 +62,14 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
         input
       end
 
-    "pull collection events by page import id=~w, page_number=~w"
-    |> log_info([input.import.id, input.page_number])
+    "pull collection events by page=~w, venue=~s, slug=~s, token_ids=~w, import_id=~w"
+    |> log_info([
+      input.page_number,
+      input.import.venue,
+      input.import.slug,
+      input.import.token_ids,
+      input.import.id
+    ])
 
     input
   end
@@ -83,23 +102,21 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
         {input, {:ok, result}, import_page}
 
       {:error, reason} = error ->
-        "could not fetch collection events venue=~s, slug=~s, token_ids: ~w, reason=~s"
+        "could not pull collection events for page=~w, venue=~s, slug=~s, token_ids=~w, import_id=~w, reason=~s"
         |> log_error([
+          input.page_number,
           input.import.venue,
           input.import.slug,
           input.import.token_ids,
+          input.import.id,
           reason |> inspect
         ])
 
-        # TODO: how should this match import_page above?
-        # - should retry
-        # - only really needs the next cursor or current cursor
-        # - page number can come from itself
         {input, error, nil}
     end
   end
 
-  defp enqueue_next_page({input, fetch_and_upsert_result, import_page} = step_input) do
+  defp enqueue_next_page({input, fetch_and_upsert_result, import_page} = state) do
     case fetch_and_upsert_result do
       {:ok, _result} ->
         if import_page.next_page_cursor != nil do
@@ -113,12 +130,22 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
           |> Oban.insert()
         end
 
-        step_input
-
       {:error, _reason} ->
         if input.retries < input.import.max_retries do
           retry_attempt = input.retries + 1
           schedule_in = Integer.pow(retry_attempt, 2)
+
+          "retry ~w/~w pull collection events by page=~w in ~w seconds venue=~s, slug=~s, token_ids=~w, import_id=~w"
+          |> log_warn([
+            retry_attempt,
+            input.import.max_retries,
+            input.page_number,
+            schedule_in,
+            input.import.venue,
+            input.import.slug,
+            input.import.token_ids,
+            input.import.id
+          ])
 
           %{
             collection_event_import_id: input.import.id,
@@ -129,10 +156,21 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
           }
           |> Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage.new()
           |> Oban.insert()
+        else
+          "max retry attempts ~w/~w reached pulling collection events by page=~w, venue=~s, slug=~s, token_ids=~w, import_id=~w"
+          |> log_error([
+            input.retries,
+            input.import.max_retries,
+            input.page_number,
+            input.import.venue,
+            input.import.slug,
+            input.import.token_ids,
+            input.import.id
+          ])
         end
-
-        step_input
     end
+
+    state
   end
 
   defp complete_import_on_last_page({input, fetch_and_upsert_result, import_page}) do

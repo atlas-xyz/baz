@@ -7,6 +7,12 @@ defmodule Baz.FormatLogger do
     |> Logger.info()
   end
 
+  def log_warn(format, data) do
+    format
+    |> :io_lib.format(data)
+    |> Logger.warn()
+  end
+
   def log_error(format, data) do
     format
     |> :io_lib.format(data)
