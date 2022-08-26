@@ -3,12 +3,17 @@ defmodule Baz.IEx.Commands.CollectionAssetsTest do
   import ExUnit.CaptureIO
 
   test "shows each local collection assets" do
-    create_collection_asset(%{venue: "open_sea", slug: "azuki", token_id: 1, name: "Azuki #1"})
+    create_collection_asset(%{
+      venue: "open_sea",
+      slug: "azuki",
+      token_id: "1",
+      name: "Azuki #1"
+    })
 
     create_collection_asset(%{
       venue: "open_sea",
       slug: "doodles-official",
-      token_id: 20,
+      token_id: "20",
       name: "Doodles #20"
     })
 

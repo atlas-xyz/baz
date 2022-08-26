@@ -11,7 +11,7 @@ defmodule Baz.CollectionAssets.CollectionAsset do
   schema "collection_assets" do
     field :venue, :string
     field :slug, :string
-    field :token_id, :integer
+    field :token_id, :string
     field :name, :string
     field :description, :string
     field :background_color, :string

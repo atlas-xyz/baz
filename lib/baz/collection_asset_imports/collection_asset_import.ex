@@ -13,7 +13,7 @@ defmodule Baz.CollectionAssetImports.CollectionAssetImport do
   schema "collection_asset_imports" do
     field(:venue, :string)
     field(:slug, :string)
-    field(:token_ids, Baz.EctoTypes.Integers)
+    field(:token_ids, Baz.EctoTypes.Strings)
     field :max_retries, :integer
     field(:status, :string)
     has_many(:pages, CollectionAssetImportPage)

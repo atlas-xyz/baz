@@ -5,7 +5,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssetImports do
     create table(:collection_asset_imports) do
       add :venue, :text, null: false
       add :slug, :text, null: false
-      add :token_ids, {:array, :integer}, null: true
+      add :token_ids, {:array, :string}, null: true
       add :max_retries, :integer, null: false
       add :status, :string, null: false
 

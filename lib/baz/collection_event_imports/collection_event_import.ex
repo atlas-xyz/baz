@@ -14,7 +14,7 @@ defmodule Baz.CollectionEventImports.CollectionEventImport do
     field(:slug, :string)
     field(:before, :utc_datetime_usec)
     field(:after, :utc_datetime_usec)
-    field(:token_ids, Baz.EctoTypes.Integers)
+    field(:token_ids, Baz.EctoTypes.Strings)
     field(:event_types, {:array, :string})
     field :max_retries, :integer
     field(:status, :string)

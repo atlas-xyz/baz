@@ -6,7 +6,7 @@ defmodule Baz.CollectionAssets.FilterAndOrderTest do
       create_collection_asset(%{
         venue: "open_sea",
         slug: "azuki",
-        token_id: 1,
+        token_id: "1",
         name: "Azuki #1"
       })
 
@@ -14,7 +14,7 @@ defmodule Baz.CollectionAssets.FilterAndOrderTest do
       create_collection_asset(%{
         venue: "x2y2",
         slug: "azuki",
-        token_id: 1,
+        token_id: "1",
         name: "Azuki #1"
       })
 
@@ -22,7 +22,7 @@ defmodule Baz.CollectionAssets.FilterAndOrderTest do
       create_collection_asset(%{
         venue: "open_sea",
         slug: "doodles-official",
-        token_id: 1,
+        token_id: "1",
         name: "Doodles #1"
       })
 
@@ -47,7 +47,7 @@ defmodule Baz.CollectionAssets.FilterAndOrderTest do
       create_collection_asset(%{
         venue: "open_sea",
         slug: "azuki",
-        token_id: 1,
+        token_id: "1",
         name: "Azuki #1"
       })
 
@@ -55,7 +55,7 @@ defmodule Baz.CollectionAssets.FilterAndOrderTest do
       create_collection_asset(%{
         venue: "x2y2",
         slug: "doodles-official",
-        token_id: 1,
+        token_id: "1",
         name: "Doodles #1"
       })
 
