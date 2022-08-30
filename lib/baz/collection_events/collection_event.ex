@@ -35,6 +35,7 @@ defmodule Baz.CollectionEvents.CollectionEvent do
     field(:venue, :string)
     field(:slug, :string)
     field(:token_id, :integer)
+    field(:id, :integer)
 
     timestamps()
   end
@@ -47,13 +48,15 @@ defmodule Baz.CollectionEvents.CollectionEvent do
       :event_type,
       :venue,
       :slug,
-      :token_id
+      :token_id,
+      :id
     ])
     |> validate_required([
       :event_timestamp,
       :event_type,
       :venue,
-      :slug
+      :slug,
+      :id
     ])
   end
 end
