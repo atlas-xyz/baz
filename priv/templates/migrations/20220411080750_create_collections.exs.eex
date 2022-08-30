@@ -13,6 +13,6 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollections do
       timestamps()
     end
 
-    create index(:collections, [:slug], unique: true)
+    create index(:collections, [:venue, :slug], unique: true)
   end
 end
