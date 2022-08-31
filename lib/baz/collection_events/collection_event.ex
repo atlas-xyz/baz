@@ -35,7 +35,7 @@ defmodule Baz.CollectionEvents.CollectionEvent do
     field(:venue, :string)
     field(:slug, :string)
     field(:token_id, :integer)
-    field(:id, :integer)
+    field(:id, :string)
 
     timestamps()
   end
@@ -46,17 +46,18 @@ defmodule Baz.CollectionEvents.CollectionEvent do
     |> cast(attrs, [
       :event_timestamp,
       :event_type,
-      :venue,
+      :id,
       :slug,
       :token_id,
-      :id
+      :venue
     ])
     |> validate_required([
       :event_timestamp,
       :event_type,
-      :venue,
+      :id,
       :slug,
-      :id
+      :venue
     ])
+    |> unique_constraint(([:event_timestamp, :event_type, :id, :slug, :token_id, :venue ]))
   end
 end

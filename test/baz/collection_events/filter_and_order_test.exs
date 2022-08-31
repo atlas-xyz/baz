@@ -7,7 +7,7 @@ defmodule Baz.CollectionEvents.FilterAndOrderTest do
         venue: "open_sea",
         slug: "azuki",
         token_id: 1,
-        id: 123,
+        id: "1234567",
         event_type: "item_listed",
         event_timestamp: ts
       })
@@ -17,7 +17,7 @@ defmodule Baz.CollectionEvents.FilterAndOrderTest do
         venue: "open_sea",
         slug: "azuki",
         token_id: 1,
-        id: 123,
+        id: "1234567",
         event_type: "item_listed",
         event_timestamp: ts
       })
@@ -28,7 +28,7 @@ defmodule Baz.CollectionEvents.FilterAndOrderTest do
     {:ok, open_sea_azuki_nil} = create_collection_event(%{
       venue: "open_sea",
       slug: "azuki",
-      id: 123,
+      id: "1234567",
       event_type: "item_listed",
       event_timestamp: ts
     })
@@ -38,7 +38,7 @@ defmodule Baz.CollectionEvents.FilterAndOrderTest do
         venue: "x2y2",
         slug: "azuki",
         token_id: 1,
-        id: 234,
+        id: "234",
         event_type: "item_listed",
         event_timestamp: DateTime.utc_now()
       })
@@ -48,7 +48,7 @@ defmodule Baz.CollectionEvents.FilterAndOrderTest do
         venue: "open_sea",
         slug: "doodles-official",
         token_id: 1,
-        id: 567,
+        id: "567",
         event_type: "item_listed",
         event_timestamp: DateTime.utc_now()
       })

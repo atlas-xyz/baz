@@ -27,7 +27,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionEvents do
       add :event_type, :event_type, null: false
       add :venue, :text, null: false
       add :slug, :text, null: false
-      add :id, :integer, null: false
+      add :id, :text, null: false   # TODO: maybe nullable for other venues
       add :token_id, :integer
 
       timestamps()
