@@ -97,6 +97,8 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
             end
           )
 
+
+        Logger.info("receive_collection_event_import MULTI #{inspect(multi)}")
         result = input.sinks |> Enum.map(fn s -> s.receive_collection_event_import(multi) end)
 
         {input, {:ok, result}, import_page}

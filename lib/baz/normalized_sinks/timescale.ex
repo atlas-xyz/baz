@@ -1,8 +1,6 @@
 defmodule Baz.NormalizedSinks.Timescale do
   alias Baz.Repo
 
-  require Logger
-
   @behaviour Baz.CollectionPackSink
   @behaviour Baz.CollectionSink
   @behaviour Baz.CollectionTraitSink
@@ -62,13 +60,11 @@ defmodule Baz.NormalizedSinks.Timescale do
 
   @impl true
   def receive_collection_event_import(multi) do
-    Logger.info("-> receive_collection_event_IMPORT: #{inspect(multi)}")
     Repo.transaction(multi)
   end
 
   @impl true
   def receive_collection_event_stream(changeset) do
-    Logger.info("->>>> receive_collection_event_STREAM: #{inspect(changeset)}")
     Repo.insert(changeset, on_conflict: :nothing)
   end
 end
