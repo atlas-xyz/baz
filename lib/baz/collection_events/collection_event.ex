@@ -22,12 +22,14 @@ defmodule Baz.CollectionEvents.CollectionEvent do
         :item_canceled,
         :item_received_offer,
         :item_received_bid,
-        :created,
-        :successful,
-        :collection_offer,
-        :trait_offer,
         :bid_entered,
+        :bid_withdrawn,
         :cancelled,
+        :collection_offer,
+        :created,
+        :offer_entered,
+        :successful,
+        :trait_offer,
         :transfer
       ]
     )
