@@ -95,10 +95,12 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
           |> Enum.reduce(
             multi,
             fn {event, index}, multi ->
-              Ecto.Multi.insert(multi, {:collection_event, index}, event)
+#              Ecto.Multi.insert(multi, {:collection_event, index}, event)
+              Ecto.Multi.run(multi, {:collection_event, index}, fn _repo, _changes ->
+                Baz.CollectionEvents.create_collection_event(event)
+              end)
             end
           )
-
 
         Logger.info("receive_collection_event_import MULTI #{inspect(multi)}")
         result = input.sinks |> Enum.map(fn s -> s.receive_collection_event_import(multi) end)

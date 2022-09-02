@@ -53,11 +53,14 @@ defmodule Baz.CollectionEvents do
     CollectionEvent.changeset(%CollectionEvent{}, attrs)
   end
 
+
+  def create_collection_event(%CollectionEvent{} = collection_event) do
+    Repo.insert(collection_event, on_conflict: :nothing, returning: true)
+  end
   @spec create_collection_event(map) :: {:ok, collection_event} | {:error, term}
-  def create_collection_event(attrs) do
-    %CollectionEvent{}
-    |> CollectionEvent.changeset(attrs)
-    |> Repo.insert()
+  def create_collection_event(attrs) when is_map(attrs) do
+    collection_event_changeset(attrs)
+    |> Repo.insert(on_conflict: :nothing)
   end
 
   @doc """
