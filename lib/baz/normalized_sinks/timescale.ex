@@ -60,7 +60,7 @@ defmodule Baz.NormalizedSinks.Timescale do
 
   @impl true
   def receive_collection_event_import(multi) do
-    Repo.transaction(multi, on_conflict: :nothing)
+    Repo.transaction(multi)
   end
 
   @impl true
