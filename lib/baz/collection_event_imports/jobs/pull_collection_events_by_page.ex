@@ -85,9 +85,8 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
           page_number: input.page_number,
           next_page_cursor: page.next_page_cursor
         }
-
         import_page = Ecto.build_assoc(input.import, :pages, import_page_attrs)
-        multi = Ecto.Multi.insert(multi, :import_page, import_page)
+        multi = Ecto.Multi.insert(multi, :import_page, import_page, on_conflict: :nothing)
 
         multi =
           page.data
@@ -95,14 +94,10 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
           |> Enum.reduce(
             multi,
             fn {event, index}, multi ->
-#              Ecto.Multi.insert(multi, {:collection_event, index}, event)
-              Ecto.Multi.run(multi, {:collection_event, index}, fn _repo, _changes ->
-                Baz.CollectionEvents.create_collection_event(event)
-              end)
+              Ecto.Multi.insert(multi, {:collection_event, index}, event, on_conflict: :nothing)
             end
           )
 
-        Logger.info("receive_collection_event_import MULTI #{inspect(multi)}")
         result = input.sinks |> Enum.map(fn s -> s.receive_collection_event_import(multi) end)
 
         {input, {:ok, result}, import_page}
