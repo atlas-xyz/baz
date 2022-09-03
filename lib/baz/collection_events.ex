@@ -54,8 +54,8 @@ defmodule Baz.CollectionEvents do
   end
 
 
-  def create_collection_event(%CollectionEvent{} = collection_event) do
-    Repo.insert(collection_event, on_conflict: :nothing, returning: true)
+  def create_collection_event(%Ecto.Changeset{data: %CollectionEvent{}, errors: [], valid?: true} = event_changeset) do
+    Repo.insert(event_changeset, on_conflict: :nothing, returning: true)
   end
   @spec create_collection_event(map) :: {:ok, collection_event} | {:error, term}
   def create_collection_event(attrs) when is_map(attrs) do
