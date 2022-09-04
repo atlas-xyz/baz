@@ -22,6 +22,7 @@ defmodule Baz.TestSupport.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Baz.TestSupport.DataCase
+      import Baz.TestSupport.Factories.RawSinkFactory
       import Baz.TestSupport.Factories.CollectionFactory
       import Baz.TestSupport.Factories.CollectionImportFactory
       import Baz.TestSupport.Factories.CollectionAssetFactory
@@ -32,6 +33,13 @@ defmodule Baz.TestSupport.DataCase do
   end
 
   setup tags do
+    on_exit(fn ->
+      if tags[:restart] do
+        :ok = Application.stop(:baz)
+        {:ok, _} = Application.ensure_all_started(:baz)
+      end
+    end)
+
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Baz.Repo)
 
     unless tags[:async] do
