@@ -23,6 +23,7 @@ defmodule Baz.TestSupport.DataCase do
       import Ecto.Query
       import Baz.TestSupport.DataCase
       import Baz.TestSupport.Factories.RawSinkFactory
+      import Baz.TestSupport.Factories.NormalizedSinkFactory
       import Baz.TestSupport.Factories.CollectionFactory
       import Baz.TestSupport.Factories.CollectionImportFactory
       import Baz.TestSupport.Factories.CollectionAssetFactory
