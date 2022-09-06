@@ -84,7 +84,7 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
           next_page_cursor: page.next_page_cursor
         }
         import_page = Ecto.build_assoc(input.import, :pages, import_page_attrs)
-        multi = Ecto.Multi.insert(multi, :import_page, import_page, on_conflict: :nothing)
+        multi = Ecto.Multi.insert(multi, :import_page, import_page)
 
         multi =
           page.data
