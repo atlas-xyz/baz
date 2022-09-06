@@ -7,7 +7,7 @@ defmodule Baz.IEx.Commands.EventsTest do
       venue: "open_sea",
       slug: "azuki",
       token_id: 1,
-      id: "123456789",
+      source_id: "123456789",
       event_type: "item_sold",
       event_timestamp: ~U[2022-01-20 12:00:05.123456Z]
     })
