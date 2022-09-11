@@ -2,7 +2,8 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionPackTraits do
   use Ecto.Migration
 
   def change do
-    create table(:collection_pack_traits) do
+    create table(:collection_pack_traits, primary_key: false) do
+      add :id, :uuid, primary_key: true, null: false
       add :collection_pack_id, references(:collection_packs, type: :uuid), null: false
       add :trait_type, :text, null: false
       add :value, :text, null: false
