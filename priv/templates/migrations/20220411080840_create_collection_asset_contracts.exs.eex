@@ -2,7 +2,8 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssetContracts do
   use Ecto.Migration
 
   def change do
-    create table(:collection_asset_contracts) do
+    create table(:collection_asset_contracts, primary_key: false) do
+      add :id, :uuid, primary_key: true, null: false
       add :venue, :text, null: false
       add :slug, :text, null: false
       add :address, :string, null: false
