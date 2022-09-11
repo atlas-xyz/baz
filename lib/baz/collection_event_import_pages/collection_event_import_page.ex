@@ -10,6 +10,7 @@ defmodule Baz.CollectionEventImportPages.CollectionEventImportPage do
   @type t :: Ecto.Schema.t()
 
   @primary_key {:id, Ecto.UUID, autogenerate: true}
+  @foreign_key_type Ecto.UUID
 
   schema "collection_event_import_pages" do
     field(:page_number, :integer)
