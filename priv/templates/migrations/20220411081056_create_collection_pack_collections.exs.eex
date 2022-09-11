@@ -3,7 +3,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionPackCollections d
 
   def change do
     create table(:collection_pack_collections) do
-      add :collection_pack_id, references(:collection_packs), null: false
+      add :collection_pack_id, references(:collection_packs, type: :uuid), null: false
       add :collection_id, references(:collections, type: :uuid), null: false
 
       timestamps()
