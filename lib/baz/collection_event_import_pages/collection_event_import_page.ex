@@ -3,11 +3,13 @@ defmodule Baz.CollectionEventImportPages.CollectionEventImportPage do
   CollectionEventImportPage resource
   """
 
-  @type t :: Ecto.Schema.t()
-
   use Ecto.Schema
   import Ecto.Changeset
   alias Baz.CollectionEventImports.CollectionEventImport
+
+  @type t :: Ecto.Schema.t()
+
+  @primary_key {:id, Ecto.UUID, autogenerate: true}
 
   schema "collection_event_import_pages" do
     field(:page_number, :integer)
