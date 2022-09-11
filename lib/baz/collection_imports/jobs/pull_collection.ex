@@ -29,7 +29,7 @@ defmodule Baz.CollectionImports.Jobs.PullCollection do
   end
 
   defp start_import(input) do
-    "start execution of collection import id=~w" |> log_info([input.import.id])
+    "start execution of collection import id=~s" |> log_info([input.import.id])
     {:ok, collection_import} = update_import_status(input.import, "executing")
     %{input | import: collection_import}
   end
@@ -49,7 +49,7 @@ defmodule Baz.CollectionImports.Jobs.PullCollection do
   end
 
   defp complete_import({input, fetch_and_upsert_result}) do
-    "complete execution of collection import id=~w" |> log_info([input.import.id])
+    "complete execution of collection import id=~s" |> log_info([input.import.id])
     {:ok, _collection_import} = update_import_status(input.import, "completed")
     fetch_and_upsert_result
   end
