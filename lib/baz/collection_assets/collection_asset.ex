@@ -8,6 +8,8 @@ defmodule Baz.CollectionAssets.CollectionAsset do
 
   @type t :: Ecto.Schema.t()
 
+  @primary_key {:id, Ecto.UUID, autogenerate: true}
+
   schema "collection_assets" do
     field(:venue, :string)
     field(:slug, :string)

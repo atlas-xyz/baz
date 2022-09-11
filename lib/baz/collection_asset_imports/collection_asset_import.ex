@@ -10,6 +10,8 @@ defmodule Baz.CollectionAssetImports.CollectionAssetImport do
   @type id :: non_neg_integer
   @type t :: Ecto.Schema.t()
 
+  @primary_key {:id, Ecto.UUID, autogenerate: true}
+
   schema "collection_asset_imports" do
     field(:venue, :string)
     field(:slug, :string)

@@ -3,10 +3,12 @@ defmodule Baz.CollectionImports.CollectionImport do
   CollectionImport resource
   """
 
-  @type t :: struct
-
   use Ecto.Schema
   import Ecto.Changeset
+
+  @type t :: struct
+
+  @primary_key {:id, Ecto.UUID, autogenerate: true}
 
   schema "collection_imports" do
     field :venue, :string

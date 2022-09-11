@@ -2,7 +2,8 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollections do
   use Ecto.Migration
 
   def change do
-    create table(:collections) do
+    create table(:collections, primary_key: false) do
+      add :id, :uuid, primary_key: true, null: false
       add :venue, :text, null: false
       add :slug, :text, null: false
       add :name, :text, null: false
