@@ -24,10 +24,16 @@ defmodule Baz.IEx.Commands.CollectionImportsTest do
     })
 
     output = capture_io(&Baz.IEx.collection_imports/0)
-    assert String.match?(output, ~r/\d+\s+\| open_sea \| azuki\s+\| available \|/) == true
 
-    assert String.match?(output, ~r/\d+\s+\| open_sea \| doodles-official\s+\| completed \|/) ==
-             true
+    assert String.match?(
+             output,
+             ~r/[a-z0-9]{8,8}-[a-z0-9]{4,4}-[a-z0-9]{4,4}-[a-z0-9]{4,4}-[a-z0-9]{12,12}\s+\| open_sea \| azuki\s+\| available \|/
+           ) == true
+
+    assert String.match?(
+             output,
+             ~r/[a-z0-9]{8,8}-[a-z0-9]{4,4}-[a-z0-9]{4,4}-[a-z0-9]{4,4}-[a-z0-9]{12,12}\s+\| open_sea \| doodles-official\s+\| completed \|/
+           ) == true
   end
 
   test "shows an empty table when there are no collection imports" do
