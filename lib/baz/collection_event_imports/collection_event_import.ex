@@ -9,6 +9,8 @@ defmodule Baz.CollectionEventImports.CollectionEventImport do
 
   @type t :: Ecto.Schema.t()
 
+  @primary_key {:id, Ecto.UUID, autogenerate: true}
+
   schema "collection_event_imports" do
     field(:venue, :string)
     field(:slug, :string)
