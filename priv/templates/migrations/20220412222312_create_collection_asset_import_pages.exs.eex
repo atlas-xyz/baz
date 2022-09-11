@@ -2,8 +2,9 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssetImportPages 
   use Ecto.Migration
 
   def change do
-    create table(:collection_asset_import_pages) do
-      add :collection_asset_import_id, references(:collection_asset_imports), null: false
+    create table(:collection_asset_import_pages, primary_key: false) do
+      add :id, :uuid, primary_key: true, null: false
+      add :collection_asset_import_id, references(:collection_asset_imports, type: :uuid), null: false
       add :page_number, :integer, null: false
       add :next_page_cursor, :text, null: true
 

@@ -8,6 +8,8 @@ defmodule Baz.CollectionPacks.CollectionPack do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key {:id, Ecto.UUID, autogenerate: true}
+
   schema "collection_packs" do
     field :slug, :string
     field :name, :string

@@ -27,13 +27,13 @@ defmodule Baz.IEx.Commands.CollectionAssetImportsTest do
 
     assert String.match?(
              output,
-             ~r/\d+\s+\| open_sea \| azuki\s+\| 1, 2\s+\| 3\s+\| available \|/
+             ~r/[a-z0-9]{8,8}-[a-z0-9]{4,4}-[a-z0-9]{4,4}-[a-z0-9]{4,4}-[a-z0-9]{12,12}\s+\| open_sea \| azuki\s+\| 1, 2\s+\| 3\s+\| available \|/
            ) ==
              true
 
     assert String.match?(
              output,
-             ~r/\d+\s+\| open_sea \| doodles-official\s+\| 20, 21\s+\| 3\s+\| completed \|/
+             ~r/[a-z0-9]{8,8}-[a-z0-9]{4,4}-[a-z0-9]{4,4}-[a-z0-9]{4,4}-[a-z0-9]{12,12}\s+| open_sea \| doodles-official\s+\| 20, 21\s+\| 3\s+\| completed \|/
            ) == true
   end
 

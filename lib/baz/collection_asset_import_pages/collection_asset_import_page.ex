@@ -3,11 +3,14 @@ defmodule Baz.CollectionAssetImportPages.CollectionAssetImportPage do
   CollectionAssetImportPage resource
   """
 
-  @type t :: Ecto.Schema.t()
-
   use Ecto.Schema
   import Ecto.Changeset
   alias Baz.CollectionAssetImports.CollectionAssetImport
+
+  @type t :: Ecto.Schema.t()
+
+  @primary_key {:id, Ecto.UUID, autogenerate: true}
+  @foreign_key_type Ecto.UUID
 
   schema "collection_asset_import_pages" do
     field(:page_number, :integer)

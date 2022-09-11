@@ -2,8 +2,9 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionPackAssets do
   use Ecto.Migration
 
   def change do
-    create table(:collection_pack_assets) do
-      add :collection_pack_id, references(:collection_packs), null: false
+    create table(:collection_pack_assets, primary_key: false) do
+      add :id, :uuid, primary_key: true, null: false
+      add :collection_pack_id, references(:collection_packs, type: :uuid), null: false
       add :token_id, :integer, null: false
 
       timestamps()
