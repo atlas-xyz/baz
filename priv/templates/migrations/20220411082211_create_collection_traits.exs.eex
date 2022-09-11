@@ -3,7 +3,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionTraits do
 
   def change do
     create table(:collection_traits) do
-      add :collection_id, references(:collections), null: false
+      add :collection_id, references(:collections, type: :uuid), null: false
       add :trait_type, :text, null: false
       add :value, :text, null: false
       add :display_type, :text, null: false
