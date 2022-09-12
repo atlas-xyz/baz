@@ -79,6 +79,24 @@ Rerun ecto migrations
 $ mix ecto.migrate
 ```
 
+## Logging Oban Jobs
+
+To enable `oban` job logging configure `Oban.Telemetry` or your own logger within your supervision tree
+
+```elixir
+def start(_type, _args) do
+  children = [
+    MyApp.Repo,
+    MyApp.Endpoint,
+    {Oban, oban_opts()}
+  ]
+
+  Oban.Telemetry.attach_default_logger(:info)
+
+  Supervisor.start_link(children, [strategy: :one_for_one, name: MyApp.Supervisor])
+end
+```
+
 ## Development
 
 Ensure an instance of TimescaleDB is running
