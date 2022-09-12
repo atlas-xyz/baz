@@ -8,7 +8,7 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEvents do
   - event_types
   """
 
-  use Oban.Worker, queue: :pull
+  use Oban.Worker, queue: :pull, tags: ["baz"]
   require Logger
 
   @impl Oban.Worker
