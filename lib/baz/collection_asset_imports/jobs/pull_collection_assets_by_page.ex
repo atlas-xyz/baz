@@ -3,7 +3,7 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssetsByPage do
   Fetch collection asset data from a venue and normalize before passing through the sink pipeline
   """
 
-  use Oban.Worker, queue: :imports
+  use Oban.Worker, queue: :pull
   import Baz.FormatLogger
 
   defmodule Input do

@@ -7,7 +7,7 @@ defmodule Baz.CollectionAssetImports.Jobs.PullCollectionAssets do
   - token_ids
   """
 
-  use Oban.Worker, queue: :imports
+  use Oban.Worker, queue: :pull
   require Logger
 
   @impl Oban.Worker

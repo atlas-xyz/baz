@@ -41,7 +41,7 @@ config :baz, Oban,
     #   ]
     # }
   ],
-  queues: [default: 10, imports: 5]
+  queues: [default: 10, pull: 5]
 
 # Baz Core
 config :baz, settings: %{}
