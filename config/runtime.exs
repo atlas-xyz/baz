@@ -29,7 +29,10 @@ end
 config :baz, Oban,
   repo: Baz.Repo,
   plugins: [
-    Oban.Plugins.Pruner
+    # remove completed oban jobs
+    # Oban.Plugins.Pruner
+
+    # schedule oban jobs with cron syntax
     # {
     #   Oban.Plugins.Cron,
     #   crontab: [
