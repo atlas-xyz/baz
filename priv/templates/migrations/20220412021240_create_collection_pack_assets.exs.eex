@@ -5,7 +5,19 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionPackAssets do
     create table(:collection_pack_assets, primary_key: false) do
       add :id, :uuid, primary_key: true, null: false
       add :collection_pack_id, references(:collection_packs, type: :uuid), null: false
-      add :token_id, :integer, null: false
+      add :network, :string
+      add :contract_address, :string
+      add :token_id, :string, null: false
+      add :name, :text
+      add :description, :text
+      add :background_color, :text
+      add :image_uri, :text
+      add :image_preview_uri, :text
+      add :image_thumbnail_uri, :text
+      add :image_original_uri, :text
+      add :animation_uri, :text
+      add :animation_original_uri, :text
+      add :is_nsfw, :boolean
 
       timestamps()
     end
