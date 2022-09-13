@@ -3,7 +3,7 @@ defmodule Baz.CollectionEventImports.Jobs.PullCollectionEventsByPage do
   Fetch collection event data from a venue and normalize before passing through the sink pipeline
   """
 
-  use Oban.Worker, queue: :pull, tags: ["baz"]
+  use Oban.Worker, queue: :pull, tags: ["baz", "venue_collection_event"]
   import Baz.FormatLogger
 
   defmodule Input do
