@@ -4,6 +4,26 @@ defmodule Baz.CollectionPacks do
   alias Baz.CollectionPacks.Queries
 
   @type collection_pack :: CollectionPack.t()
+
+  @type search_query :: String.t() | nil
+  @type search_opts :: [{:page, pos_integer} | {:page_size, pos_integer}]
+
+  @spec search_collection_packs(search_query, search_opts) :: [collection_pack]
+  def search_collection_packs(_search_query, _opts) do
+    # opts
+    # |> Queries.FilterAndOrder.new()
+    # |> Repo.all()
+
+    Queries.Search.new()
+    |> Repo.all()
+  end
+
+  @spec search_collection_packs_count(search_query, search_opts) :: non_neg_integer
+  def search_collection_packs_count(_search_query, _opts) do
+    Queries.Search.new()
+    |> Repo.aggregate(:count)
+  end
+
   @type where_opt :: {:where, [{atom, term}]}
   @type order_opt :: {:order, [atom]}
 

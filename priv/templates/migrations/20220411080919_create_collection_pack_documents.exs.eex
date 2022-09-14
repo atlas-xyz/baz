@@ -1,0 +1,17 @@
+defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionPackDocuments do
+  use Ecto.Migration
+
+  def change do
+    create table(:collection_pack_documents, primary_key: false) do
+      add :id, :uuid, primary_key: true, null: false
+      add :collection_pack_id, references(:collection_packs, type: :uuid), null: false
+      add :language, :text, null: false
+      add :search_vector, :tsvector, null: false
+
+      timestamps()
+    end
+
+    create index(:collection_pack_documents, [:collection_pack_id, :language], unique: true)
+    create index(:collection_pack_documents, [:search_vector], using: "GIN")
+  end
+end

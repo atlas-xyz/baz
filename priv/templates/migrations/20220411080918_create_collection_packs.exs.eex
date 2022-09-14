@@ -1,16 +1,7 @@
 defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionPacks do
   use Ecto.Migration
 
-  def up do
-    create_query = """
-    CREATE TYPE collection_pack_status AS ENUM (
-      'visible',
-      'hidden',
-      'scheduled'
-    )
-    """
-    execute(create_query)
-
+  def change do
     create table(:collection_packs, primary_key: false) do
       add :id, :uuid, primary_key: true, null: false
       add :slug, :text, null: false
@@ -19,16 +10,11 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionPacks do
       add :image_uri, :text
       add :banner_image_uri, :text
       add :is_verified, :boolean, null: false
-      add :status, :collection_pack_status, null: false
+      add :is_visible, :boolean, null: false
 
       timestamps()
     end
 
     create index(:collection_packs, [:slug], unique: true)
-  end
-
-  def down do
-    drop table(:collection_packs)
-    execute("DROP TYPE collection_pack_status")
   end
 end

@@ -17,14 +17,7 @@ defmodule Baz.CollectionPacks.CollectionPack do
     field(:image_uri, :string)
     field(:banner_image_uri, :string)
     field(:is_verified, :boolean)
-
-    field(:status, Ecto.Enum,
-      values: [
-        :visible,
-        :hidden,
-        :scheduled
-      ]
-    )
+    field(:is_visible, :boolean)
 
     timestamps()
   end
@@ -39,8 +32,9 @@ defmodule Baz.CollectionPacks.CollectionPack do
       :image_uri,
       :banner_image_uri,
       :is_verified,
-      :status
+      :is_visible,
     ])
     |> validate_required([:slug])
+    |> unique_constraint([:slug])
   end
 end

@@ -1,0 +1,25 @@
+defmodule <%= module_prefix %>.Repo.Migrations.CreateSearchCollectionPacks do
+  use Ecto.Migration
+
+  def up do
+    create_query = """
+    CREATE FUNCTION search_collection_packs(search_query TEXT, language TEXT DEFAULT 'en', result_limit INTEGER DEFAULT 5)
+    RETURNS SETOF collection_packs AS $$
+    SELECT
+      collection_packs.*
+    FROM
+      collection_packs
+      INNER JOIN collection_pack_documents ON collection_pack_documents.collection_pack_id = collection_packs.id
+    WHERE
+      collection_pack_documents.language = language
+      AND search_query <%% ( collection_pack_documents.search_vector )
+    ORDER BY
+      similarity(search_query, ( collection_pack_documents.search_vector )) DESC limit result_limit;
+    """
+    execute(create_query)
+  end
+
+  def down do
+    execute("DROP FUNCTION search_collection_packs")
+  end
+end

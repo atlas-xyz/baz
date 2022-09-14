@@ -1,0 +1,13 @@
+defmodule <%= module_prefix %>.Repo.Migrations.CreateExtensionPgTrgm do
+  use Ecto.Migration
+
+  def up do
+    create_query = """
+    CREATE EXTENSION IF NOT EXISTS pg_trgm;
+    """
+    execute(create_query)
+  end
+
+  def down do
+  end
+end
