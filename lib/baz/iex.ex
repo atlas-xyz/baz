@@ -22,6 +22,22 @@ defmodule Baz.IEx do
     to: Commands.CollectionAssets,
     as: :filter_and_order
 
+  @spec venue_web_sockets() :: no_return
+  @spec venue_web_sockets(Commands.VenueWebSockets.opts()) :: no_return
+  defdelegate venue_web_sockets(options \\ []), to: Commands.VenueWebSockets, as: :filter_and_order
+
+  @spec start_venue_web_socket() :: no_return
+  @spec start_venue_web_socket(Commands.StartVenueWebSocket.opts()) :: no_return
+  defdelegate start_venue_web_socket(options \\ []),
+    to: Commands.StartVenueWebSocket,
+    as: :start_venue_web_socket
+
+  @spec subscribe_venue_web_socket() :: no_return
+  @spec subscribe_venue_web_socket(Commands.SubscribeVenueWebSocket.opts()) :: no_return
+  defdelegate subscribe_venue_web_socket(options \\ []),
+    to: Commands.SubscribeVenueWebSocket,
+    as: :subscribe_venue_web_socket
+
   @spec venues() :: no_return
   @spec venues(Commands.Venues.opts()) :: no_return
   defdelegate venues(options \\ []), to: Commands.Venues, as: :filter_and_order

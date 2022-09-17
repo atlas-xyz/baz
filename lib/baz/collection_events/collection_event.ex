@@ -36,7 +36,7 @@ defmodule Baz.CollectionEvents.CollectionEvent do
 
     field(:venue, :string)
     field(:slug, :string)
-    field(:token_id, :integer)
+    field(:token_id, :string)
     field(:source_id, :string)
 
     timestamps()

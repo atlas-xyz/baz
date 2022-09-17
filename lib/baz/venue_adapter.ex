@@ -2,7 +2,7 @@ defmodule Baz.VenueAdapter do
   alias Baz.Collections
 
   @type address :: String.t()
-  @type venue :: struct
+  @type venue :: Baz.Venues.Venue.t()
   @type collection_slug :: String.t()
   @type collection :: Collections.Collection.t()
   @type shared_errors :: :not_implemented | {:unhandled, term} | term
@@ -57,4 +57,12 @@ defmodule Baz.VenueAdapter do
     e ->
       {:error, {:unhandled, {e, __STACKTRACE__}}}
   end
+
+  @type start_venue_web_socket_result :: term
+  @callback start_venue_web_socket(venue) :: start_venue_web_socket_result
+
+  @type slug_mask :: String.t()
+
+  @type subscribe_venue_web_socket_result :: term
+  @callback subscribe_venue_web_socket(venue, slug_mask) :: subscribe_venue_web_socket_result
 end

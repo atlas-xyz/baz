@@ -6,24 +6,11 @@ defmodule Baz.CollectionEvents.FilterAndOrderTest do
     {:ok, open_sea_azuki_1} = create_collection_event(%{
         venue: "open_sea",
         slug: "azuki",
-        token_id: 1,
+        token_id: "1",
         source_id: "1234567",
         event_type: "item_listed",
         event_timestamp: ts
       })
-
-    try do
-      create_collection_event(%{
-        venue: "open_sea",
-        slug: "azuki",
-        token_id: 1,
-        source_id: "1234567",
-        event_type: "item_listed",
-        event_timestamp: ts
-      })
-    rescue
-      Ecto.ConstraintError -> :as_expected
-    end
 
     {:ok, open_sea_azuki_nil} = create_collection_event(%{
       venue: "open_sea",
@@ -37,7 +24,7 @@ defmodule Baz.CollectionEvents.FilterAndOrderTest do
       create_collection_event(%{
         venue: "x2y2",
         slug: "azuki",
-        token_id: 1,
+        token_id: "1",
         source_id: "234",
         event_type: "item_listed",
         event_timestamp: DateTime.utc_now()
@@ -47,7 +34,7 @@ defmodule Baz.CollectionEvents.FilterAndOrderTest do
       create_collection_event(%{
         venue: "open_sea",
         slug: "doodles-official",
-        token_id: 1,
+        token_id: "1",
         source_id: "567",
         event_type: "item_listed",
         event_timestamp: DateTime.utc_now()

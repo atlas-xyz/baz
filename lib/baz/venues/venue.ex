@@ -4,6 +4,7 @@ defmodule Baz.Venues.Venue do
   """
 
   @type t :: Ecto.Schema.t()
+  @type name :: String.t()
 
   use Ecto.Schema
   import Ecto.Changeset

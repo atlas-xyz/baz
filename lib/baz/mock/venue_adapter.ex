@@ -97,4 +97,14 @@ defmodule Baz.Mock.VenueAdapter do
         {:error, :not_found}
     end
   end
+
+  @impl true
+  def start_venue_web_socket(venue) do
+    IO.puts "TODO: Baz.Mock.VenueAdapter.start_venue_web_socket - venue=#{venue.name}"
+  end
+
+  @impl true
+  def subscribe_venue_web_socket(venue, slugs) do
+    IO.puts "TODO: Baz.Mock.VenueAdapter.subscribe_venue_web_socket - venue=#{venue.name}, slugs=#{slugs}"
+  end
 end
