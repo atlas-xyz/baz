@@ -58,10 +58,23 @@ defmodule Baz.VenueWebSockets do
     venue.adapter.start_venue_web_socket(venue)
   end
 
+  @spec stop_venue_web_socket(venue_name) :: :ok
+  def stop_venue_web_socket(venue_name) do
+    venue = Baz.Venues.get_venue!(venue_name)
+    venue.adapter.stop_venue_web_socket(venue)
+  end
+
   @type slug_mask :: String.t()
+
   @spec subscribe_venue_web_socket(venue_name, slug_mask) :: :ok
   def subscribe_venue_web_socket(venue_name, slug_mask) do
     venue = Baz.Venues.get_venue!(venue_name)
     venue.adapter.subscribe_venue_web_socket(venue, slug_mask)
+  end
+
+  @spec unsubscribe_venue_web_socket(venue_name, slug_mask) :: :ok
+  def unsubscribe_venue_web_socket(venue_name, slug_mask) do
+    venue = Baz.Venues.get_venue!(venue_name)
+    venue.adapter.unsubscribe_venue_web_socket(venue, slug_mask)
   end
 end

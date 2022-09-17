@@ -61,8 +61,14 @@ defmodule Baz.VenueAdapter do
   @type start_venue_web_socket_result :: term
   @callback start_venue_web_socket(venue) :: start_venue_web_socket_result
 
+  @type stop_venue_web_socket_result :: term
+  @callback stop_venue_web_socket(venue) :: stop_venue_web_socket_result
+
   @type slug_mask :: String.t()
 
   @type subscribe_venue_web_socket_result :: term
   @callback subscribe_venue_web_socket(venue, slug_mask) :: subscribe_venue_web_socket_result
+
+  @type unsubscribe_venue_web_socket_result :: term
+  @callback unsubscribe_venue_web_socket(venue, slug_mask) :: unsubscribe_venue_web_socket_result
 end

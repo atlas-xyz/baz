@@ -104,7 +104,17 @@ defmodule Baz.Mock.VenueAdapter do
   end
 
   @impl true
+  def stop_venue_web_socket(venue) do
+    IO.puts "TODO: Baz.Mock.VenueAdapter.stop_venue_web_socket - venue=#{venue.name}"
+  end
+
+  @impl true
   def subscribe_venue_web_socket(venue, slugs) do
     IO.puts "TODO: Baz.Mock.VenueAdapter.subscribe_venue_web_socket - venue=#{venue.name}, slugs=#{slugs}"
+  end
+
+  @impl true
+  def unsubscribe_venue_web_socket(venue, slugs) do
+    IO.puts "TODO: Baz.Mock.VenueAdapter.unsubscribe_venue_web_socket - venue=#{venue.name}, slugs=#{slugs}"
   end
 end

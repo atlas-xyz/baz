@@ -4,8 +4,8 @@ defmodule Baz.IEx.Commands.SubscribeVenueWebSocket do
   """
 
   @type venue_name :: Baz.Venues.Venue.name()
-  @type slugs :: String.t()
-  @type opts :: [{:venue, venue_name} | {:slugs, slugs}]
+  @type slug_mask :: String.t()
+  @type opts :: [{:venue, venue_name} | {:slugs, slug_mask}]
 
   @spec subscribe_venue_web_socket(opts) :: no_return
   def subscribe_venue_web_socket(opts) do

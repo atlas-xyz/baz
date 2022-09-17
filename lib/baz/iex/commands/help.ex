@@ -20,7 +20,17 @@ defmodule Baz.IEx.Commands.Help do
     === [web sockets]
     - venue_web_sockets [where: [...], order: [...]]
     - start_venue_web_socket venue: ":name"
+    - stop_venue_web_socket venue: ":name"
     - subscribe_venue_web_socket venue: ":name", slugs: "*"
+    - unsubscribe_venue_web_socket venue: ":name", slugs: "*"
+
+    === [polling]
+    - venue_collection_pollers [where: [...], order: [...]]
+    - venue_collection_asset_pollers [where: [...], order: [...]]
+    - venue_collection_event_pollers [where: [...], order: [...]]
+    - start_venue_collection_poller venue: ":name"
+    - start_venue_collection_asset_poller venue: ":name", slug: ":slug"
+    - start_venue_collection_event_poller venue: ":name", slug: ":slug", token_ids: [...], type: ...
 
     === [imports]
     - collection_imports [where: [...], order: [...]]

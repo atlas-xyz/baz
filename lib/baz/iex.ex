@@ -32,6 +32,12 @@ defmodule Baz.IEx do
     to: Commands.StartVenueWebSocket,
     as: :start_venue_web_socket
 
+  @spec stop_venue_web_socket() :: no_return
+  @spec stop_venue_web_socket(Commands.StopVenueWebSocket.opts()) :: no_return
+  defdelegate stop_venue_web_socket(options \\ []),
+    to: Commands.StopVenueWebSocket,
+    as: :stop_venue_web_socket
+
   @spec subscribe_venue_web_socket() :: no_return
   @spec subscribe_venue_web_socket(Commands.SubscribeVenueWebSocket.opts()) :: no_return
   defdelegate subscribe_venue_web_socket(options \\ []),
