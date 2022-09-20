@@ -1,9 +1,36 @@
 defmodule Baz.CollectionAssets do
+  @moduledoc false
+
+  import Ecto.Query
   alias Baz.Repo
   alias Baz.CollectionAssets.CollectionAsset
   alias Baz.CollectionAssets.Queries
 
   @type collection_asset :: CollectionAsset.t()
+
+  @type search_query :: Queries.Search.search_query()
+  @type page_number :: non_neg_integer
+  @type page_size :: non_neg_integer
+
+  @spec search_collections(search_query, page_number, page_size) :: [collection_asset]
+  def search_collections(search_query, page_number, page_size) do
+    offset_page = max(page_number - 1, 0) * page_size
+
+    queryable =
+      search_query
+      |> Queries.Search.new()
+      |> limit(^page_size)
+      |> offset(^offset_page)
+
+    Repo.all(queryable)
+  end
+
+  @spec search_collections_count(search_query) :: non_neg_integer
+  def search_collections_count(search_query) do
+    queryable = Queries.Search.new(search_query)
+    Repo.aggregate(queryable, :count)
+  end
+
   @type filter_and_order_opts :: Queries.FilterAndOrder.opts()
 
   @doc """
