@@ -35,7 +35,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionEvents do
       timestamps()
     end
 
-    create index(:collection_events, [:venue, :slug, :token_id])
+    create index(:collection_events, [:slug, :venue, :token_id])
 
     <%= if not is_nil(migration_prefix), do: "execute \"SET search_path to public;\""  %>
     execute "SELECT create_hypertable('<%=if not is_nil(migration_prefix), do: "#{migration_prefix}."%>collection_events', 'event_timestamp');"

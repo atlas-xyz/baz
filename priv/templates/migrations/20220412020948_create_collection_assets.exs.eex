@@ -21,6 +21,6 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssets do
       timestamps()
     end
 
-    create index(:collection_assets, [:venue, :slug, :token_id], unique: true)
+    create index(:collection_assets, [:slug, :venue, :token_id], unique: true)
   end
 end
