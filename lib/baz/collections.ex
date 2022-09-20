@@ -25,7 +25,7 @@ defmodule Baz.Collections do
     Repo.all(queryable)
   end
 
-  @spec search_collections_count(search_query) :: [collection]
+  @spec search_collections_count(search_query) :: non_neg_integer
   def search_collections_count(search_query) do
     queryable = Queries.Search.new(search_query)
     Repo.aggregate(queryable, :count)
