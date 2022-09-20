@@ -4,10 +4,10 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionAssets do
   def change do
     create table(:collection_assets, primary_key: false) do
       add :id, :uuid, primary_key: true, null: false
-      add :venue, :text, null: false
-      add :slug, :text, null: false
+      add :venue, :citext, null: false
+      add :slug, :citext, null: false
       add :token_id, :string, null: false
-      add :name, :text
+      add :name, :citext
       add :description, :text
       add :background_color, :text
       add :image_uri, :text

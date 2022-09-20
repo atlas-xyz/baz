@@ -8,7 +8,7 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionPackAssets do
       add :network, :string
       add :contract_address, :string
       add :token_id, :string, null: false
-      add :name, :text
+      add :name, :citext
       add :description, :text
       add :background_color, :text
       add :image_uri, :text

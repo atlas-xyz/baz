@@ -27,8 +27,8 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionEvents do
     create table(:collection_events, primary_key: false) do
       add :event_timestamp, :utc_datetime_usec, null: false
       add :event_type, :event_type, null: false
-      add :venue, :text, null: false
-      add :slug, :text, null: false
+      add :venue, :citext, null: false
+      add :slug, :citext, null: false
       add :source_id, :text
       add :token_id, :string
 
