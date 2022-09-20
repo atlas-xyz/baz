@@ -13,8 +13,8 @@ defmodule <%= module_prefix %>.Repo.Migrations.CreateCollectionPacks do
 
     create table(:collection_packs, primary_key: false) do
       add :id, :uuid, primary_key: true, null: false
-      add :slug, :text, null: false
-      add :name, :text, null: false
+      add :slug, :citext, null: false
+      add :name, :citext, null: false
       add :description, :text
       add :image_uri, :text
       add :banner_image_uri, :text

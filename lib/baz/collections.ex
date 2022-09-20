@@ -1,11 +1,38 @@
 defmodule Baz.Collections do
+  @moduledoc false
+
+  import Ecto.Query
   alias Baz.Repo
   alias Baz.Collections.Collection
   alias Baz.Collections.Queries
 
+  @type collection :: Collection.t()
+
+  @type search_query :: Queries.Search.search_query()
+  @type page_number :: non_neg_integer
+  @type page_size :: non_neg_integer
+
+  @spec search_collections(search_query, page_number, page_size) :: [collection]
+  def search_collections(search_query, page_number, page_size) do
+    offset_page = max(page_number - 1, 0) * page_size
+
+    queryable =
+      search_query
+      |> Queries.Search.new()
+      |> limit(^page_size)
+      |> offset(^offset_page)
+
+    Repo.all(queryable)
+  end
+
+  @spec search_collections_count(search_query) :: [collection]
+  def search_collections_count(search_query) do
+    queryable = Queries.Search.new(search_query)
+    Repo.aggregate(queryable, :count)
+  end
+
   @type where_opt :: {:where, [{atom, term}]}
   @type order_opt :: {:order, [atom]}
-  @type collection :: Collection.t()
 
   @type filter_and_order_opts :: [where_opt | order_opt]
   @spec filter_and_order(filter_and_order_opts) :: [collection]
